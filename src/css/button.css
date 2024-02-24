@@ -1,0 +1,10 @@
+.fill-right {
+  background: linear-gradient(to right, #000000 50%, transparent 50%);
+  background-size: 200% 100%;
+  background-position: right bottom;
+  transition: background-position 0.5s;
+}
+
+.fill-right.hovered {
+  background-position: left bottom;
+}
