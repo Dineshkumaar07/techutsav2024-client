@@ -136,7 +136,7 @@ const Navbar = () => {
             <button
               onClick={() => {
                 profile
-                  .get("/")
+                  .get("profile/getProfile")
                   .then((res) => {
                     console.log(res);
                   })
