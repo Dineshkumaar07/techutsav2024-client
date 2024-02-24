@@ -37,6 +37,7 @@ import logo from "../assets/logo.png";
 import React, { useState } from "react";
 import { Link } from "react-scroll";
 import { api } from "../api/auth";
+import { profile } from "../api/profile";
 
 const Navbar = () => {
   const [isLoginHovered, setIsLoginHovered] = useState(false);
@@ -133,6 +134,16 @@ const Navbar = () => {
           ))}
           <li className="cursor-pointer ml-0 lg:ml-11">
             <button
+              onClick={() => {
+                profile
+                  .get("/")
+                  .then((res) => {
+                    console.log(res);
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              }}
               className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md ${
                 isLoginHovered ? "hovered" : ""
               }`}
