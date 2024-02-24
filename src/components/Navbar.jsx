@@ -37,8 +37,9 @@ import logo from "../assets/logo.png";
 import React, { useState } from "react";
 import { Link } from "react-scroll";
 import { api } from "../api/auth";
+import { useNavigate } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ authenticated }) => {
   const [isLoginHovered, setIsLoginHovered] = useState(false);
 
   let Links = [
@@ -49,6 +50,7 @@ const Navbar = () => {
     { name: "CONTACT", link: "contact" },
   ];
   const [open, setOpen] = useState(false);
+  let navigate = useNavigate();
   return (
     <div className=" w-full  top-0 left-0 sticky z-40  ">
       <div className="lg:flex items-center flex  justify-between py-2 bg-[#f6f6fe] lg:px-10 px-9 ">
@@ -132,44 +134,52 @@ const Navbar = () => {
             </li>
           ))}
           <li className="cursor-pointer ml-0 lg:ml-11">
-            <button
-              onClick={() => {
-                api
-                  .get("profile/getProfile")
-                  .then((res) => {
-                    console.log(res);
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                  });
-              }}
-              className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md ${
-                isLoginHovered ? "hovered" : ""
-              }`}
-              onMouseEnter={() => setIsLoginHovered(true)}
-              onMouseLeave={() => setIsLoginHovered(false)}
-            >
-              Profile
-            </button>
-            <button
-              onClick={() => {
-                api
-                  .get("auth/logout")
-                  .then((res) => {
-                    console.log(res);
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                  });
-              }}
-              className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md ${
-                isLoginHovered ? "hovered" : ""
-              }`}
-              onMouseEnter={() => setIsLoginHovered(true)}
-              onMouseLeave={() => setIsLoginHovered(false)}
-            >
-              Logout
-            </button>
+            {authenticated ? (
+              <button
+                to="/login"
+                onClick={() => {
+                  api
+                    .get("auth/logout")
+                    .then((res) => {
+                      console.log(res);
+                      window.location.reload();
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                }}
+                className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md ${
+                  isLoginHovered ? "hovered" : ""
+                }`}
+                onMouseEnter={() => setIsLoginHovered(true)}
+                onMouseLeave={() => setIsLoginHovered(false)}
+              >
+                Logout
+              </button>
+            ) : (
+              <Link
+                to="/login"
+                onClick={() => {
+                  api
+                    .get("profile/getProfile")
+                    .then((res) => {
+                      console.log(res);
+                      navigate("/login");
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                      navigate("/login");
+                    });
+                }}
+                className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md ${
+                  isLoginHovered ? "hovered" : ""
+                }`}
+                onMouseEnter={() => setIsLoginHovered(true)}
+                onMouseLeave={() => setIsLoginHovered(false)}
+              >
+                Profile
+              </Link>
+            )}
           </li>
         </ul>
       </div>

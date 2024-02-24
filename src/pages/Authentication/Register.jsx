@@ -3,6 +3,7 @@ import EyeClose from "../../components/EyeClose.jsx";
 import EyeOpen from "../../components/EyeOpen.jsx";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { api } from "../../api/auth.js";
 
 const Register = () => {
   let navigate = useNavigate();
@@ -82,8 +83,8 @@ const Register = () => {
       }
       setLoading(true);
 
-      await axios
-        .post(`https://techutsav-auth-backend.onrender.com/auth/signup`, {
+      api
+        .post(`auth/signup`, {
           email: email,
           fullName: name,
           phoneNumber: phoneNumber,

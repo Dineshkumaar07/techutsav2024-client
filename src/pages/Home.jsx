@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import Lottie from "react-lottie";
 import animationData from "../lotties/meet.json";
+import { Link as Alink } from "react-scroll";
 import { Link } from "react-router-dom";
 import "../css/button.css";
 
-const Home = () => {
+const Home = ({ authenticated }) => {
   const [isRegisterHovered, setIsRegisterHovered] = useState(false);
   const [isLoginHovered, setIsLoginHovered] = useState(false);
+  const [isExploreHovered, setIsExploreHovered] = useState(false);
+  const [isProfileHovered, setIsProfileHovered] = useState(false);
 
   const defaultOptions = {
     loop: true,
@@ -28,29 +31,61 @@ const Home = () => {
         <p className="text-xl">
           Decoding the Digital: Unveiling the future of tech.
         </p>
-        <div className="flex gap-4 mt-4 sm:mt-8">
-          {" "}
-          <Link
-            to="/register"
-            className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md ${
-              isRegisterHovered ? "hovered" : ""
-            }`}
-            onMouseEnter={() => setIsRegisterHovered(true)}
-            onMouseLeave={() => setIsRegisterHovered(false)}
-          >
-            Register
-          </Link>
-          <Link
-            to="/login"
-            className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md ${
-              isLoginHovered ? "hovered" : ""
-            }`}
-            onMouseEnter={() => setIsLoginHovered(true)}
-            onMouseLeave={() => setIsLoginHovered(false)}
-          >
-            Login
-          </Link>
-        </div>
+        {authenticated ? (
+          <div className="flex gap-9 mt-6">
+            <p className="text-2xl font-semibold">
+              Welcome, {sessionStorage.getItem("name")}
+            </p>
+            <Alink
+              to="events"
+              spy={true}
+              smooth={true}
+              duration={500}
+              offset={-70}
+              className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md ${
+                isExploreHovered ? "hovered" : ""
+              }`}
+              onMouseEnter={() => setIsExploreHovered(true)}
+              onMouseLeave={() => setIsExploreHovered(false)}
+            >
+              Explore
+            </Alink>
+            <Link
+              to="/profile"
+              className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md ${
+                isProfileHovered ? "hovered" : ""
+              }`}
+              onMouseEnter={() => setIsProfileHovered(true)}
+              onMouseLeave={() => setIsProfileHovered(false)}
+            >
+              Profile
+            </Link>
+          </div>
+        ) : (
+          <div className="flex gap-4 mt-4 sm:mt-8">
+            {" "}
+            <Link
+              to="/register"
+              className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md ${
+                isRegisterHovered ? "hovered" : ""
+              }`}
+              onMouseEnter={() => setIsRegisterHovered(true)}
+              onMouseLeave={() => setIsRegisterHovered(false)}
+            >
+              Register
+            </Link>
+            <Link
+              to="/login"
+              className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md ${
+                isLoginHovered ? "hovered" : ""
+              }`}
+              onMouseEnter={() => setIsLoginHovered(true)}
+              onMouseLeave={() => setIsLoginHovered(false)}
+            >
+              Login
+            </Link>
+          </div>
+        )}
       </div>
       <div className="sm:w-1/3 w-[350px] sm:mt-0 bg-[#f6f6fe] z-30">
         <Lottie options={defaultOptions} />

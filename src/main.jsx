@@ -8,12 +8,14 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Register from "./pages/Authentication/Register.jsx";
 import MoreEvents from "./pages/MoreEvents.jsx";
 import Login from "./pages/Authentication/Login.jsx";
+import Profile from "./pages/Profile.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
   { path: "/register", element: <Register /> },
   { path: "/more-events", element: <MoreEvents /> },
   { path: "/login", element: <Login /> },
+  { path: "/profile", element: <Profile /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
