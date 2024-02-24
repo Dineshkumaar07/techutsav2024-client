@@ -37,7 +37,6 @@ import logo from "../assets/logo.png";
 import React, { useState } from "react";
 import { Link } from "react-scroll";
 import { api } from "../api/auth";
-import { profile } from "../api/profile";
 
 const Navbar = () => {
   const [isLoginHovered, setIsLoginHovered] = useState(false);
@@ -135,7 +134,7 @@ const Navbar = () => {
           <li className="cursor-pointer ml-0 lg:ml-11">
             <button
               onClick={() => {
-                profile
+                api
                   .get("profile/getProfile")
                   .then((res) => {
                     console.log(res);
