@@ -89,7 +89,7 @@ const Home = ({ authenticated }) => {
           </div>
         )}
       </div>
-      <div className="sm:w-1/3 w-[350px] sm:mt-0 bg-[#f6f6fe] z-30">
+      <div className="sm:w-1/3 w-[350px] sm:mt-0 bg-[#f6f6fe] z-30 hidden md:block">
         <Lottie options={defaultOptions} />
       </div>
     </div>
