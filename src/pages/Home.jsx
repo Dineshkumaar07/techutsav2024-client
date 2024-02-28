@@ -36,14 +36,14 @@ const Home = ({ authenticated }) => {
             <p className="text-2xl font-semibold">
               Welcome, {sessionStorage.getItem("name")}
             </p>
-            <div className="flex gap-5">
+            <div className="flex gap-5 flex-col md:flex-row">
               <Alink
                 to="events"
                 spy={true}
                 smooth={true}
                 duration={500}
                 offset={-70}
-                className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md w-1/4 text-center cursor-pointer ${
+                className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md  text-center cursor-pointer ${
                   isExploreHovered ? "hovered" : ""
                 }`}
                 onMouseEnter={() => setIsExploreHovered(true)}
@@ -53,7 +53,7 @@ const Home = ({ authenticated }) => {
               </Alink>
               <Link
                 to="/profile"
-                className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md w-1/4 text-center ${
+                className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md  text-center ${
                   isProfileHovered ? "hovered" : ""
                 }`}
                 onMouseEnter={() => setIsProfileHovered(true)}
