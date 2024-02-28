@@ -164,6 +164,9 @@ const Register = () => {
                   />
                 </div>
                 <div className="flex w-full justify-around">
+                  <Link className={button} type="button" to="/">
+                    Back
+                  </Link>
                   <button
                     className={button}
                     onClick={(e) => {
@@ -173,9 +176,6 @@ const Register = () => {
                   >
                     Next
                   </button>
-                  <Link className={button} type="button" to="/">
-                    Back
-                  </Link>
                 </div>
                 {incomplete && (
                   <div className="text-red-500"> Complete all details</div>
@@ -282,21 +282,21 @@ const Register = () => {
                 <div className="flex justify-around">
                   <button
                     className={button}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handlePage2();
-                    }}
-                  >
-                    Submit
-                  </button>
-                  <button
-                    className={button}
                     type="button"
                     onClick={() => {
                       setPage(page - 1);
                     }}
                   >
                     Back
+                  </button>
+                  <button
+                    className={button}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handlePage2();
+                    }}
+                  >
+                    Submit
                   </button>
                 </div>
                 {!isValidPassword && (

@@ -32,34 +32,36 @@ const Home = ({ authenticated }) => {
           Decoding the Digital: Unveiling the future of tech.
         </p>
         {authenticated ? (
-          <div className="flex gap-9 mt-6">
+          <div className="flex gap-9 mt-6 flex-col ">
             <p className="text-2xl font-semibold">
               Welcome, {sessionStorage.getItem("name")}
             </p>
-            <Alink
-              to="events"
-              spy={true}
-              smooth={true}
-              duration={500}
-              offset={-70}
-              className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md ${
-                isExploreHovered ? "hovered" : ""
-              }`}
-              onMouseEnter={() => setIsExploreHovered(true)}
-              onMouseLeave={() => setIsExploreHovered(false)}
-            >
-              Explore
-            </Alink>
-            <Link
-              to="/profile"
-              className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md ${
-                isProfileHovered ? "hovered" : ""
-              }`}
-              onMouseEnter={() => setIsProfileHovered(true)}
-              onMouseLeave={() => setIsProfileHovered(false)}
-            >
-              Profile
-            </Link>
+            <div className="flex gap-5">
+              <Alink
+                to="events"
+                spy={true}
+                smooth={true}
+                duration={500}
+                offset={-70}
+                className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md w-1/4 text-center cursor-pointer ${
+                  isExploreHovered ? "hovered" : ""
+                }`}
+                onMouseEnter={() => setIsExploreHovered(true)}
+                onMouseLeave={() => setIsExploreHovered(false)}
+              >
+                Explore
+              </Alink>
+              <Link
+                to="/profile"
+                className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md w-1/4 text-center ${
+                  isProfileHovered ? "hovered" : ""
+                }`}
+                onMouseEnter={() => setIsProfileHovered(true)}
+                onMouseLeave={() => setIsProfileHovered(false)}
+              >
+                Profile
+              </Link>
+            </div>
           </div>
         ) : (
           <div className="flex gap-4 mt-4 sm:mt-8">

@@ -53,37 +53,39 @@ const Profile = ({ paid }) => {
             </p>
           )}
         </div>
-        <Link
-          onClick={() => {
-            api
-              .get("auth/logout")
-              .then((res) => {
-                console.log(res);
-                window.location.reload();
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          }}
-          to="/"
-          className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md text-center ${
-            isLogoutHovered ? "hovered" : ""
-          }`}
-          onMouseEnter={() => setLogoutHover(true)}
-          onMouseLeave={() => setLogoutHover(false)}
-        >
-          Logout
-        </Link>
-        <Link
-          to="/"
-          className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md text-center ${
-            isBack ? "hovered" : ""
-          }`}
-          onMouseEnter={() => setIsBack(true)}
-          onMouseLeave={() => setIsBack(false)}
-        >
-          Back
-        </Link>
+        <div className="flex justify-evenly w-full">
+          <Link
+            to="/"
+            className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md text-center ${
+              isBack ? "hovered" : ""
+            }`}
+            onMouseEnter={() => setIsBack(true)}
+            onMouseLeave={() => setIsBack(false)}
+          >
+            Back
+          </Link>
+          <Link
+            onClick={() => {
+              api
+                .get("auth/logout")
+                .then((res) => {
+                  console.log(res);
+                  window.location.reload();
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            }}
+            to="/"
+            className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md text-center ${
+              isLogoutHovered ? "hovered" : ""
+            }`}
+            onMouseEnter={() => setLogoutHover(true)}
+            onMouseLeave={() => setLogoutHover(false)}
+          >
+            Logout
+          </Link>
+        </div>
       </div>
     </div>
   );

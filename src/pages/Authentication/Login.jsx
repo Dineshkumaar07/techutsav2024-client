@@ -69,6 +69,9 @@ const Login = () => {
             </div>
           </div>
           <div className="flex justify-evenly">
+            <Link className={button} to="/">
+              Back
+            </Link>
             <button
               className={button}
               onClick={async (event) => {
@@ -123,9 +126,6 @@ const Login = () => {
             >
               Login
             </button>
-            <Link className={button} to="/">
-              Back
-            </Link>
 
             {incomplete && <p className="text-red-500">Complete all details</p>}
             {isValidEmail && <p className="text-red-500">Enter valid mail</p>}
