@@ -5,7 +5,7 @@ const faqs = [
   {
     question: "How should we pay the Fees?",
     answer:
-      "You should Pay fees using the ICICI Back Portal. You must paste the Transaction Number after payment. The Admin will verify the Payment and update your profile",
+      "You should Pay fees using the ICICI Bank Portal. You must paste the Transaction Number after payment. The Admin will verify the Payment and update your profile",
   },
   {
     question: "Can we register on spot?",
@@ -21,8 +21,8 @@ const faqs = [
       "You can attend all the Events including Workshop in every department",
   },
   {
-    question: "Will refreshments will be provided?",
-    answer: "Yes Refreshments will be provided afternoon (Vegetarian).",
+    question: "Will Meals will be provided?",
+    answer: "Yes Meals will be provided afternoon (Vegetarian).",
   },
   {
     question: "Will you provide accomodation for students?",
