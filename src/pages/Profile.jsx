@@ -1,84 +1,192 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../api/auth";
-const Profile = ({ paid }) => {
+
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+
+import ProfileOne from "../assets/user1.png";
+
+import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
+
+import { useMediaQuery } from "@mui/material";
+import Footer from "./Footer";
+
+const Profile = () => {
   const [isLogoutHovered, setLogoutHover] = useState(false);
   const [isBack, setIsBack] = useState(false);
   const [transactionNumber, setTransactionNumber] = useState("");
 
+  const mobileCheck = useMediaQuery("(min-width: 900px)");
+
   const verifyRequest = () => {
-    if (sessionStorage.getItem("paid") === "false" && sessionStorage.getItem("transactionNumber") !== "") {
-      return true;
+    if (sessionStorage.getItem("paid") === "true") {
+      return "Payment Successful";
+    } else if (
+      sessionStorage.getItem("paid") === "false" &&
+      sessionStorage.getItem("transactionNumber") !== ""
+    ) {
+      return "Requested for Verification";
     }
-    return false;
-  }
+    return "Not Verified";
+  };
 
   return (
-    <div className="w-full h-screen flex justify-center items-center">
-      <div className="flex flex-col gap-5 border-2 border-black p-9 rounded-lg items-center">
-        <h1 className="text-4xl font-bold">TECHUTSAV 2024</h1>
-        <h2 className="font-semibold text-3xl text-center">Profile</h2>
-        <div className="flex flex-col gap-4 text-xl">
-          <p>
-            <span className="font-bold"> Name</span> :
-            <span> {sessionStorage.getItem("name")}</span>
-          </p>
-          <p>
-            {" "}
-            <span className="font-bold"> Email</span> :
-            <span> {sessionStorage.getItem("email")}</span>
-          </p>{" "}
-          <p>
-            {" "}
-            <span className="font-bold"> Phone</span> :
-            <span> {sessionStorage.getItem("phone")}</span>
-          </p>{" "}
-          <p>
-            {" "}
-            <span className="font-bold"> College</span> :
-            <span> {sessionStorage.getItem("college")}</span>
-          </p>{" "}
-          <p>
-            {" "}
-            <span className="font-bold"> Department</span> :
-            <span> {sessionStorage.getItem("department")}</span>
-          </p>
-          {console.log(sessionStorage.getItem("paid"))}
-          {sessionStorage.getItem("paid") === "true" ? (
-            <p>
-              <span className="font-bold"> Paid</span> :
-              <span> {sessionStorage.getItem("paid")} </span>
-            </p>
-          ) : (
+    <div>
+      <div
+        className={`w-full ${mobileCheck ? "h-screen" : "h-fit"} flex ${
+          mobileCheck ? "flex-row" : "flex-col"
+        } justify-center items-center relative mb-10 overflow-x-hidden`}
+      >
+        <div
+          className={`${
+            mobileCheck ? "w-[50%]" : "w-[90%]"
+          } h-full flex flex-col items-center justify-center`}
+        >
+          <nav className={`w-full h-[50px] absolute top-5 left-5`}>
+            <Link to="/">
+              <Button variant="contained">
+                <KeyboardArrowLeftIcon /> Back
+              </Button>
+            </Link>
+          </nav>
+          <div className={`flex items-start flex-col gap-8 mt-5`}>
+            <h1
+              className={`${mobileCheck ? "text-8xl" : "text-4xl"} font-black ${
+                mobileCheck ? "mt-0" : "mt-10"
+              }`}
+            >
+              PROFILE
+            </h1>
+            {!mobileCheck && (
+              <img
+                src={ProfileOne}
+                alt=""
+                className={`w-[400px] aspect-[1/1] border rounded-[50%] p-10`}
+              />
+            )}
+            <Typography>
+              <span className={`font-semibold`}>Name:</span>{" "}
+              {sessionStorage.getItem("name")}
+            </Typography>
+            <Typography>
+              <span className={`font-semibold`}>Department:</span>{" "}
+              {sessionStorage.getItem("department")}
+            </Typography>
+            <Typography>
+              <span className={`font-semibold`}>College:</span>{" "}
+              {sessionStorage.getItem("college")}
+            </Typography>
+            <Typography>
+              <span className={`font-semibold`}>Phone:</span>{" "}
+              {sessionStorage.getItem("phone")}
+            </Typography>
+            <Typography>
+              <span className={`font-semibold`}>Email:</span>{" "}
+              {sessionStorage.getItem("email")}
+            </Typography>
+            <Typography>
+              <span className={`font-semibold`}>Payment Status:</span>{" "}
+              {verifyRequest()}
+            </Typography>
+            <Button
+              variant="contained"
+              to="/login"
+              onClick={() => {
+                api
+                  .get("auth/logout")
+                  .then((res) => {
+                    console.log(res);
+                    window.location.replace("/");
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              }}
+            >
+              Logout
+            </Button>
+          </div>
+        </div>
+        <div
+          className={`${
+            mobileCheck ? "w-[50%]" : "w-[90%]"
+          } h-full flex flex-col items-center justify-center`}
+        >
+          {mobileCheck && (
+            <img
+              src={ProfileOne}
+              alt=""
+              className={`w-[400px] aspect-[1/1] border rounded-[50%] p-10`}
+            />
+          )}
+          {!(verifyRequest() === "Payment Successful") && (
             <div>
-              <p>
-                {" "}
-                <span className="font-bold"> Transaction Id</span> :
+              <div className={`text-1xl mt-3 flex items-center`}>
+                For Payment Details Download this file{" "}
+                <Button
+                  sx={{ marginLeft: "10px" }}
+                  onClick={() => {
+                    window.open(
+                      "https://techutsav2024.blob.core.windows.net/eventdetails/Techutsav2024Paymentprocess.pdf"
+                    );
+                  }}
+                >
+                  <CloudDownloadIcon />
+                </Button>
+              </div>
+              <div className={`mt-3`}>
+                <p>Please Enter your Transaction Number after Payment</p>
                 <input
                   type="text"
-                  placeholder="Enter Transaction Id"
-                  className="focus:outline-none rounded-lg w-5/6 p-2"
+                  className={`mt-5 h-[30px] p-5 min-w-[200px] border`}
+                  placeholder="Transaction Number"
                   value={transactionNumber}
                   onChange={(event) => {
                     setTransactionNumber(event.target.value);
                   }}
                 />
-              </p>
-              <button
-                className={`px-7 py-1  fill-righ border-2 border-black rounded-md text-center}`}
+              </div>
+              <Button
+                sx={{ marginTop: "15px" }}
+                variant="contained"
                 onClick={() => {
+                  console.log(transactionNumber);
                   api
                     .put("profile/updateProfile", {
-                      email: "",
-                      fullName: "",
-                      collegeName: "",
-                      department: "",
-                      phoneNumber: "",
-                      password: "",
                       transactionNumber: transactionNumber,
                     })
                     .then((result) => {
                       console.log(result);
+                      const status = api
+                        .get("profile/getProfile")
+                        .then((res) => {
+                          console.log(res);
+                          sessionStorage.setItem("name", res.data[0].fullName);
+                          sessionStorage.setItem("email", res.data[0].email);
+                          sessionStorage.setItem(
+                            "phone",
+                            res.data[0].phoneNumber
+                          );
+                          sessionStorage.setItem(
+                            "college",
+                            res.data[0].collegeName
+                          );
+                          sessionStorage.setItem(
+                            "department",
+                            res.data[0].department
+                          );
+                          sessionStorage.setItem("paid", res.data[0].paid);
+                          sessionStorage.setItem(
+                            "transactionNumber",
+                            res.data[0].transactionNumber
+                          );
+                          window.location.reload();
+                        })
+                        .catch((err) => {
+                          console.log("Not Authenticated");
+                        });
                     })
                     .catch((err) => {
                       console.log(err);
@@ -86,49 +194,121 @@ const Profile = ({ paid }) => {
                 }}
               >
                 Verify
-              </button>
-              {
-                (verifyRequest()) ? "Requested for verification" : ""
-              }
+              </Button>
+              {verifyRequest() === "Requested for Verification" && (
+                <p className={`max-w-[400px] mt-[20px] text-[#FF1717]`}>
+                  Your Verification request has been sent. Please wait for the
+                  admin to update your profile. If the profile is not updated
+                  within 36 Hours please contact using the number provided on
+                  the site.
+                </p>
+              )}
             </div>
           )}
         </div>
-        <div className="flex justify-evenly w-full">
-          <Link
-            to="/"
-            className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md text-center ${
-              isBack ? "hovered" : ""
-            }`}
-            onMouseEnter={() => setIsBack(true)}
-            onMouseLeave={() => setIsBack(false)}
-          >
-            Back
-          </Link>
-          <Link
-            onClick={() => {
-              api
-                .get("auth/logout")
-                .then((res) => {
-                  console.log(res);
-                  window.location.reload();
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
-            }}
-            to="/"
-            className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md text-center ${
-              isLogoutHovered ? "hovered" : ""
-            }`}
-            onMouseEnter={() => setLogoutHover(true)}
-            onMouseLeave={() => setLogoutHover(false)}
-          >
-            Logout
-          </Link>
-        </div>
       </div>
+      <Footer />
     </div>
   );
+
+  // return (
+  //   <div className="w-full h-screen flex justify-center items-center">
+  //     <div className="flex flex-col gap-5 border-2 border-black p-9 rounded-lg items-center">
+  //       <h1 className="text-4xl font-bold">TECHUTSAV 2024</h1>
+  //       <h2 className="font-semibold text-3xl text-center">Profile</h2>
+  //       <div className="flex flex-col gap-4 text-xl">
+  //         <p>
+  //           <span className="font-bold"> Name</span> :
+  //           <span> {sessionStorage.getItem("name")}</span>
+  //         </p>
+  //         <p>
+  //           {" "}
+  //           <span className="font-bold"> Email</span> :
+  //           <span> {sessionStorage.getItem("email")}</span>
+  //         </p>{" "}
+  //         <p>
+  //           {" "}
+  //           <span className="font-bold"> Phone</span> :
+  //           <span> {sessionStorage.getItem("phone")}</span>
+  //         </p>{" "}
+  //         <p>
+  //           {" "}
+  //           <span className="font-bold"> College</span> :
+  //           <span> {sessionStorage.getItem("college")}</span>
+  //         </p>{" "}
+  //         <p>
+  //           {" "}
+  //           <span className="font-bold"> Department</span> :
+  //           <span> {sessionStorage.getItem("department")}</span>
+  //         </p>
+  //         {console.log(sessionStorage.getItem("paid"))}
+  //         {sessionStorage.getItem("paid") === "true" ? (
+  //           <p>
+  //             <span className="font-bold"> Paid</span> :
+  //             <span> {sessionStorage.getItem("paid")} </span>
+  //           </p>
+  //         ) : (
+  //           <div>
+  //             <p>
+  //               {" "}
+  //               <span className="font-bold"> Transaction Id</span> :
+  //               <input
+  //                 type="text"
+  //                 placeholder="Enter Transaction Id"
+  //                 className="focus:outline-none rounded-lg w-5/6 p-2"
+  //                 value={transactionNumber}
+  //                 onChange={(event) => {
+  //                   setTransactionNumber(event.target.value);
+  //                 }}
+  //               />
+  //             </p>
+  //             <button
+  //               className={`px-7 py-1  fill-righ border-2 border-black rounded-md text-center}`}
+  //             >
+  //               Verify
+  //             </button>
+  //             {
+  //               (verifyRequest()) ? "Requested for verification" : ""
+  //             }
+  //           </div>
+  //         )}
+  //       </div>
+  //       <div className="flex justify-evenly w-full">
+  //         <Link
+  //           to="/"
+  //           className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md text-center ${
+  //             isBack ? "hovered" : ""
+  //           }`}
+  //           onMouseEnter={() => setIsBack(true)}
+  //           onMouseLeave={() => setIsBack(false)}
+  //         >
+  //           Back
+  //         </Link>
+  //         <Link
+  //           onClick={() => {
+  //             api
+  //               .get("auth/logout")
+  //               .then((res) => {
+  //                 console.log(res);
+  //                 window.location.reload();
+  //               })
+  //               .catch((err) => {
+  //                 console.log(err);
+  //               });
+  //           }}
+  //           to="/"
+  //           className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md text-center ${
+  //             isLogoutHovered ? "hovered" : ""
+  //           }`}
+  //           onMouseEnter={() => setLogoutHover(true)}
+  //           onMouseLeave={() => setLogoutHover(false)}
+  //         >
+  //           Logout
+  //         </Link>
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
 };
 
 export default Profile;

@@ -23,18 +23,18 @@ const Footer = () => {
           <div className="flex md:gap-5 gap-3 h-6">
             <a href="https://www.linkedin.com/school/thiagarajar-college-of-engineering/">
               <img
-                className="h-7"
+                className="aspect-[1/1] max-w-[20px]"
                 src="https://d33wubrfki0l68.cloudfront.net/7f29579dde49e02480372aa49f7189c5536b0118/34b92/assets/png/linkedin-ico.png"
                 alt=""
               />
             </a>
 
             <a href="https://www.instagram.com/tce_madurai?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==">
-              <img src={instagram} alt="" className="h-7" />
+              <img src={instagram} alt="" className="aspect-[1/1] max-w-[20px]" />
             </a>
             <a href="https://twitter.com/tceofficialpage">
               <img
-                className="h-7"
+                className="aspect-[1/1] max-w-[20px]"
                 src="https://d33wubrfki0l68.cloudfront.net/ef67339f7016cb09ba66366c1dc9145ac69f2a21/feca1/assets/png/twitter-ico.png"
                 alt=""
               />

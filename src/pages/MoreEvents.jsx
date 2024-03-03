@@ -13,12 +13,14 @@ const MoreEvents = () => {
   }, []);
 
   const [eventDetails, setEventDetails] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     api
       .get("event/getAll")
       .then((result) => {
         setEventDetails(result.data);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -117,6 +119,12 @@ const MoreEvents = () => {
   //     images: "https://csi.coep.org.in/csi_logo.png",
   //   },
   // ];
+
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
       <div

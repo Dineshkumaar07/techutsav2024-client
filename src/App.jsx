@@ -22,6 +22,7 @@ function App() {
         sessionStorage.setItem("college", res.data[0].collegeName);
         sessionStorage.setItem("department", res.data[0].department);
         sessionStorage.setItem("paid", res.data[0].paid);
+        sessionStorage.setItem("transactionNumber", res.data[0].transactionNumber);
         setAuthenticated(true);
       })
       .catch((err) => {
