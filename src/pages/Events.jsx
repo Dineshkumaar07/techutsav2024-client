@@ -1,8 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Event from "../components/Event";
 import { Link } from "react-router-dom";
+import { api } from "../api/auth";
 const Events = () => {
   const [isSeeMoreHovered, setIsSeeMoreHovered] = useState(false);
+
+  const [eventDetails, setEventDetails] = useState([]);
+  const [flagShipEvents, setFlagShipEvents] = useState([]);
+
+  useEffect(() => {
+    api
+      .get("event/getFirst")
+      .then((result) => {
+        setEventDetails(result.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    api
+      .get("event/getFlagshipEvents")
+      .then((result) => {
+        setFlagShipEvents(result.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <div className=" py-5 px-9 flex flex-col gap-8 ">
@@ -21,55 +47,42 @@ const Events = () => {
             See More
           </Link>
         </div>
-        <div className="flex flex-col lg:flex-row items-center gap-16 justify-center my-9 ">
-          <Event
-            eventName={"Blind Coding"}
-            eventDescription={
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,"
-            }
-            image={"https://csi.coep.org.in/csi_logo.png"}
-          />
-          <Event
-            eventName={"Blind Coding"}
-            eventDescription={
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,"
-            }
-            image={"https://csi.coep.org.in/csi_logo.png"}
-          />
-          <Event
-            eventName={"Blind Coding"}
-            eventDescription={
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,"
-            }
-            image={"https://csi.coep.org.in/csi_logo.png"}
-          />
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-9 place-items-center justify-items-center w-full mt-5">
+          {eventDetails.length === 0 ? (
+            <div>Failed to Load Data.. Please Refresh the Page!</div>
+          ) : (
+            eventDetails.map((element) => {
+              console.log(element);
+              return (
+                <Event
+                  uniqueName={element["uniqueName"]}
+                  eventName={element["eventName"]}
+                  eventDescription={element["eventAbstract"]}
+                  image={"https://csi.coep.org.in/csi_logo.png"}
+                />
+              );
+            })
+          )}
         </div>
-        <div className="flex w-full justify-between sm:px-36 ">
+        <div className="flex w-full justify-between sm:px-36 mt-5">
           <h1 className="font-semibold text-3xl ">Flagship Events</h1>
         </div>
-        <div className="flex flex-col lg:flex-row items-center gap-16 justify-center my-9 ">
-          {" "}
-          <Event
-            eventName={"Blind Coding"}
-            eventDescription={
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,"
-            }
-            image={"https://csi.coep.org.in/csi_logo.png"}
-          />
-          <Event
-            eventName={"Blind Coding"}
-            eventDescription={
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,"
-            }
-            image={"https://csi.coep.org.in/csi_logo.png"}
-          />
-          <Event
-            eventName={"Blind Coding"}
-            eventDescription={
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,"
-            }
-            image={"https://csi.coep.org.in/csi_logo.png"}
-          />
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-9 place-items-center justify-items-center w-full mt-5">
+          {flagShipEvents.length === 0 ? (
+            <div>Failed to Load Data.. Please Refresh the Page!</div>
+          ) : (
+            flagShipEvents.map((element) => {
+              console.log(element);
+              return (
+                <Event
+                  uniqueName={element["uniqueName"]}
+                  eventName={element["eventName"]}
+                  eventDescription={element["eventAbstract"]}
+                  image={"https://csi.coep.org.in/csi_logo.png"}
+                />
+              );
+            })
+          )}
         </div>
       </div>
     </div>

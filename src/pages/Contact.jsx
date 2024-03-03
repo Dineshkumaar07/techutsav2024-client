@@ -9,7 +9,6 @@
 // };
 
 // export default Contact;
-
 import React, { useRef, useState } from "react";
 import "../css/button.css";
 import emailjs from "@emailjs/browser";
@@ -68,7 +67,7 @@ const Contact = () => {
             </label>
             <input
               type="text"
-              className="shadow appearance-none border rounded max-w-[700px] h-14 py-2 px-3  font-medium bg-black/5 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded h-14 py-2 px-3  font-medium bg-black/5 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Enter your name"
               name="user_name"
               required
@@ -176,7 +175,7 @@ const Contact = () => {
                 d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
               />
             </svg>
-            <p>TCE, Madurai</p>
+            <p><a href="https://maps.app.goo.gl/ahRXz32jqZVRMjai7" target="_blank">TCE, Madurai</a></p>
           </div>
         </div>
       </div>

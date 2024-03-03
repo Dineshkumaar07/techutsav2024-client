@@ -4,6 +4,14 @@ import { api } from "../api/auth";
 const Profile = ({ paid }) => {
   const [isLogoutHovered, setLogoutHover] = useState(false);
   const [isBack, setIsBack] = useState(false);
+  const [transactionNumber, setTransactionNumber] = useState("");
+
+  const verifyRequest = () => {
+    if (sessionStorage.getItem("paid") === "false" && sessionStorage.getItem("transactionNumber") !== "") {
+      return true;
+    }
+    return false;
+  }
 
   return (
     <div className="w-full h-screen flex justify-center items-center">
@@ -42,15 +50,47 @@ const Profile = ({ paid }) => {
               <span> {sessionStorage.getItem("paid")} </span>
             </p>
           ) : (
-            <p>
-              {" "}
-              <span className="font-bold"> Transaction Id</span> :
-              <input
-                type="text"
-                placeholder="Enter Transaction Id"
-                className="focus:outline-none rounded-lg w-5/6 p-2"
-              />
-            </p>
+            <div>
+              <p>
+                {" "}
+                <span className="font-bold"> Transaction Id</span> :
+                <input
+                  type="text"
+                  placeholder="Enter Transaction Id"
+                  className="focus:outline-none rounded-lg w-5/6 p-2"
+                  value={transactionNumber}
+                  onChange={(event) => {
+                    setTransactionNumber(event.target.value);
+                  }}
+                />
+              </p>
+              <button
+                className={`px-7 py-1  fill-righ border-2 border-black rounded-md text-center}`}
+                onClick={() => {
+                  api
+                    .put("profile/updateProfile", {
+                      email: "",
+                      fullName: "",
+                      collegeName: "",
+                      department: "",
+                      phoneNumber: "",
+                      password: "",
+                      transactionNumber: transactionNumber,
+                    })
+                    .then((result) => {
+                      console.log(result);
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                }}
+              >
+                Verify
+              </button>
+              {
+                (verifyRequest()) ? "Requested for verification" : ""
+              }
+            </div>
           )}
         </div>
         <div className="flex justify-evenly w-full">

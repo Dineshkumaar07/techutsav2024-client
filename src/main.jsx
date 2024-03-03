@@ -9,6 +9,7 @@ import Register from "./pages/Authentication/Register.jsx";
 import MoreEvents from "./pages/MoreEvents.jsx";
 import Login from "./pages/Authentication/Login.jsx";
 import Profile from "./pages/Profile.jsx";
+import EventDetails from "./components/EventDetails.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
   { path: "/more-events", element: <MoreEvents /> },
   { path: "/login", element: <Login /> },
   { path: "/profile", element: <Profile /> },
+  {
+    path: "/events/:uniqueName",
+    element: <EventDetails />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
