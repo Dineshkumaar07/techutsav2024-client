@@ -8,11 +8,15 @@ const Events = () => {
   const [eventDetails, setEventDetails] = useState([]);
   const [flagShipEvents, setFlagShipEvents] = useState([]);
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
+    setLoading(true);
     api
       .get("event/getFirst")
       .then((result) => {
         setEventDetails(result.data);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -20,15 +24,21 @@ const Events = () => {
   }, []);
 
   useEffect(() => {
+    setLoading(true);
     api
       .get("event/getFlagshipEvents")
       .then((result) => {
         setFlagShipEvents(result.data);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className=" py-5 px-9 flex flex-col gap-8 ">
