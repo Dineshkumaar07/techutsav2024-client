@@ -17,6 +17,7 @@ const router = createBrowserRouter([
   { path: "/more-events", element: <MoreEvents /> },
   { path: "/login", element: <Login /> },
   { path: "/profile", element: <Profile /> },
+
   {
     path: "/events/:uniqueName",
     element: <EventDetails />,

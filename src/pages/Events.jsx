@@ -2,13 +2,20 @@ import React, { useEffect, useState } from "react";
 import Event from "../components/Event";
 import { Link } from "react-router-dom";
 import { api } from "../api/auth";
+import CardSkeleton from "../components/CardSkeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import { useMediaQuery } from "@mui/material";
+
 const Events = () => {
   const [isSeeMoreHovered, setIsSeeMoreHovered] = useState(false);
+  const check = useMediaQuery("(min-width:777px)");
+  const maxCheck = useMediaQuery("(max-width:1024px)");
 
   const [eventDetails, setEventDetails] = useState([]);
   const [flagShipEvents, setFlagShipEvents] = useState([]);
 
   const [loading, setLoading] = useState(true);
+  const [flagshipLoading, setFlagshipLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
@@ -19,7 +26,7 @@ const Events = () => {
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
       });
   }, []);
 
@@ -29,16 +36,14 @@ const Events = () => {
       .get("event/getFlagshipEvents")
       .then((result) => {
         setFlagShipEvents(result.data);
-        setLoading(false);
+        if (result.data.length !== 0) {
+          setFlagshipLoading(false);
+        }
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
       });
   }, []);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div className=" py-5 px-9 flex flex-col gap-8 ">
@@ -57,12 +62,19 @@ const Events = () => {
             See More
           </Link>
         </div>
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-9 place-items-center justify-items-center w-full mt-5">
-          {eventDetails.length === 0 ? (
-            <div>Failed to Load Data.. Please Refresh the Page!</div>
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-9 place-items-center justify-items-center w-full mt-9">
+          {loading ? (
+            maxCheck && check ? (
+              <CardSkeleton cards={2} />
+            ) : (
+              <CardSkeleton cards={3} />
+            )
           ) : (
-            eventDetails.map((element) => {
-              console.log(element);
+            eventDetails.map((element, i) => {
+              //console.log(element);
+              if (maxCheck && check && i == 2) {
+                return;
+              }
               return (
                 <Event
                   uniqueName={element["uniqueName"]}
@@ -74,15 +86,22 @@ const Events = () => {
             })
           )}
         </div>
-        <div className="flex w-full justify-between sm:px-36 mt-5">
+        <div className="flex w-full justify-between sm:px-36 mt-9">
           <h1 className="font-semibold text-3xl ">Flagship Events</h1>
         </div>
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-9 place-items-center justify-items-center w-full mt-5">
-          {flagShipEvents.length === 0 ? (
-            <div>Failed to Load Data.. Please Refresh the Page!</div>
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-9 place-items-center justify-items-center w-full mt-9">
+          {flagshipLoading ? (
+            maxCheck && check ? (
+              <CardSkeleton cards={2} />
+            ) : (
+              <CardSkeleton cards={3} />
+            )
           ) : (
             flagShipEvents.map((element) => {
-              console.log(element);
+              //console.log(element);
+              if (maxCheck && check && i == 2) {
+                return;
+              }
               return (
                 <Event
                   uniqueName={element["uniqueName"]}

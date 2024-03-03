@@ -2,17 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { api } from "../api/auth";
 
-import Button from "@mui/material/Button";
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-
 import Typogrpahy from "@mui/material/Typography";
-import Footer from "../pages/Footer";
 
 import { useMediaQuery } from "@mui/material";
 
 import { Link } from "react-router-dom";
+import MainLoader from "./MainLoader";
 
 function EventDetails() {
+  const [isBackHovered, setIsBackHovered] = useState(false);
+
   const { uniqueName } = useParams();
   const [data, setData] = useState();
   const [loading, setLoading] = useState(true);
@@ -33,18 +32,18 @@ function EventDetails() {
         }
       })
       .catch((err) => {
-        console.log(err);
+        //////////console.log(err);
       });
   }, []);
 
-  console.log("MobileCheck: " + mobileCheck);
+  //////////console.log("MobileCheck: " + mobileCheck);
 
   if (loading) {
-    return <div>Loading..</div>;
+    return <MainLoader />;
   }
 
   if (err) {
-    return <div>Event Not Found!</div>;
+    return <MainLoader />;
   }
 
   return (
@@ -59,13 +58,20 @@ function EventDetails() {
         <div
           className={`${
             mobileCheck ? "w-[40%]" : "w-full"
-          } h-full flex flex-col items-center bg-[#EBEBEB] justify-center relative`}
+          } h-full flex flex-col items-center bg-[#EBEBEB] justify-center relative ${
+            mobileCheck ? "pt-0" : "pt-20"
+          }`}
         >
           <nav className={`w-full h-[50px] p-3 absolute top-5 left-5`}>
-            <Link to="/more-events">
-              <Button variant="contained">
-                <KeyboardArrowLeftIcon /> Back
-              </Button>
+            <Link
+              to="/"
+              className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md ${
+                isBackHovered ? "hovered" : ""
+              }`}
+              onMouseEnter={() => setIsBackHovered(true)}
+              onMouseLeave={() => setIsBackHovered(false)}
+            >
+              Back
             </Link>
           </nav>
           <img
@@ -77,9 +83,10 @@ function EventDetails() {
         <div
           className={`${mobileCheck ? "w-[60%]" : "w-full"} ${
             mobileCheck ? "h-screen" : "h-fit"
-          } overflow-y-scroll ${!mobileCheck ? "p-2" : "p-10"}`}
+          } overflow-y-scroll ${!mobileCheck ? "p-8" : "px-12 pb-12"}`}
         >
           <Typogrpahy
+            className="sticky top-0 bg-white "
             marginTop={"20px"}
             fontSize={mobileCheck ? "60px" : "40px"}
             fontWeight="bold"
@@ -110,7 +117,6 @@ function EventDetails() {
           </Typogrpahy>
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

@@ -5,6 +5,9 @@ import { Link } from "react-router-dom";
 import { api } from "../api/auth";
 import Footer from "./Footer";
 
+import CardSkeleton from "../components/CardSkeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
 const MoreEvents = () => {
   const [isSeeMoreHovered, setIsSeeMoreHovered] = useState(false);
   const scrollUp = useRef(null);
@@ -23,7 +26,7 @@ const MoreEvents = () => {
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
       });
   }, []);
 
@@ -120,11 +123,6 @@ const MoreEvents = () => {
   //   },
   // ];
 
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div>
       <div
@@ -132,7 +130,7 @@ const MoreEvents = () => {
         ref={scrollUp}
       >
         <h1 className="text-5xl font-bold">TECHUTSAV 2024</h1>
-        <h2 className="text-3xl font-semibold">EVENTS</h2>
+        <h2 className="text-4xl font-bold">EVENTS</h2>
         <div className="w-full flex justify-end">
           <Link
             to="/"
@@ -146,8 +144,8 @@ const MoreEvents = () => {
           </Link>
         </div>
         <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-9 place-items-center justify-items-center  w-full ">
-          {eventDetails.length === 0 ? (
-            <div>Failed to Load Data.. Please Refresh the Page!</div>
+          {loading ? (
+            <CardSkeleton cards={9} />
           ) : (
             eventDetails.map((event) => (
               <Event

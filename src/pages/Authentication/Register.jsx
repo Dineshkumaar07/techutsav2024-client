@@ -95,10 +95,10 @@ const Register = () => {
         .then((res) => {
           setLoading(false);
           navigate("/login");
-          console.log(res.data);
+          //console.log(res.data);
         })
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
           setLoading(false);
         });
     } else {

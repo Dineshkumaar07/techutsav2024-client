@@ -101,10 +101,10 @@ const Login = () => {
                 //     setLoading(false);
                 //     setError(false);
                 //     naviagte("/");
-                //     console.log(res.data);
+                //     //console.log(res.data);
                 //   })
                 //   .catch((err) => {
-                //     console.log(err);
+                //     //console.log(err);
                 //     setLoading(false);
                 //     setError(true);
                 //   });
@@ -115,10 +115,10 @@ const Login = () => {
                     setLoading(false);
                     setError(false);
                     naviagte("/");
-                    console.log(res.data);
+                    //console.log(res.data);
                   })
                   .catch((err) => {
-                    console.log(err);
+                    //console.log(err);
                     setLoading(false);
                     setError(true);
                   });

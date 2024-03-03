@@ -52,7 +52,7 @@ const Navbar = ({ authenticated }) => {
   const [open, setOpen] = useState(false);
   let navigate = useNavigate();
   return (
-    <div className=" w-full  top-0 left-0 sticky z-40  ">
+    <div className=" w-full top-0 left-0 sticky z-40  ">
       <div className="lg:flex items-center flex  justify-between py-2 bg-[#f6f6fe] lg:px-10 px-9 ">
         <div className="font-bold text-2xl cursor-pointer flex items-center font-[Poppins]  ">
           <Link
@@ -141,11 +141,11 @@ const Navbar = ({ authenticated }) => {
                   api
                     .get("auth/logout")
                     .then((res) => {
-                      console.log(res);
+                      //console.log(res);
                       window.location.reload();
                     })
                     .catch((err) => {
-                      console.log(err);
+                      //console.log(err);
                     });
                 }}
                 className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md ${
@@ -163,11 +163,11 @@ const Navbar = ({ authenticated }) => {
                   api
                     .get("profile/getProfile")
                     .then((res) => {
-                      console.log(res);
+                      //console.log(res);
                       navigate("/login");
                     })
                     .catch((err) => {
-                      console.log(err);
+                      //console.log(err);
                       navigate("/login");
                     });
                 }}

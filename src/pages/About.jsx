@@ -2,6 +2,8 @@ import React from "react";
 import tce from "../assets/tce.png";
 import Lottie from "react-lottie";
 import animationData from "../lotties/meeting.json";
+// import { useMediaQuery } from "@mui/material";
+import { useMediaQuery } from "@mui/material";
 
 const About = () => {
   const defaultOptions = {
@@ -12,14 +14,20 @@ const About = () => {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
+  const mobileCheck = useMediaQuery("(min-width: 1000px)");
+
   return (
     <div className="relative flex flex-col mt-9">
       <h1 className="text-6xl sm:text-9xl font-bold text-black/40 absolute -z-10 left-8">
         ABOUT
       </h1>
       <div>
-        <div className="flex gap-6 items-center flex-col lg:flex-row">
-          <img src={tce} alt="TCE" className="w-full sm:w-[800px] z-20" />
+        <div
+          className={` gap-6 items-center flex ${
+            mobileCheck ? "flex-row" : "flex-col"
+          }`}
+        >
+          <img src={tce} alt="TCE" className="w-[600px]  z-20" />
 
           <p className="tracking-wider leading-8 sm:pr-2 px-6">
             <span className="font-bold">Founded in 1957</span> by philanthropist

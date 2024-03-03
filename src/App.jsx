@@ -8,28 +8,39 @@ import Footer from "./pages/Footer";
 import { Element } from "react-scroll";
 import { useEffect, useState } from "react";
 import { api } from "./api/auth";
+import MainLoader from "./components/MainLoader";
 
 function App() {
+  const [loading, setLoading] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
   useEffect(() => {
+    setLoading(true);
     const status = api
       .get("profile/getProfile")
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         sessionStorage.setItem("name", res.data[0].fullName);
         sessionStorage.setItem("email", res.data[0].email);
         sessionStorage.setItem("phone", res.data[0].phoneNumber);
         sessionStorage.setItem("college", res.data[0].collegeName);
         sessionStorage.setItem("department", res.data[0].department);
         sessionStorage.setItem("paid", res.data[0].paid);
-        sessionStorage.setItem("transactionNumber", res.data[0].transactionNumber);
+        sessionStorage.setItem(
+          "transactionNumber",
+          res.data[0].transactionNumber
+        );
         setAuthenticated(true);
+        setLoading(false);
       })
       .catch((err) => {
         setAuthenticated(false);
-        console.log("Not Authenticated");
+        //console.log("Not Authenticated");
+        setLoading(false);
       });
   }, []);
+  if (loading) {
+    return <MainLoader />;
+  }
   return (
     <div className="font-poppins">
       <Navbar authenticated={authenticated} />

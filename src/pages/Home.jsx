@@ -3,6 +3,7 @@ import Lottie from "react-lottie";
 import animationData from "../lotties/meet.json";
 import { Link as Alink } from "react-scroll";
 import { Link } from "react-router-dom";
+import { useMediaQuery } from "@mui/material";
 import "../css/button.css";
 
 const Home = ({ authenticated }) => {
@@ -10,6 +11,8 @@ const Home = ({ authenticated }) => {
   const [isLoginHovered, setIsLoginHovered] = useState(false);
   const [isExploreHovered, setIsExploreHovered] = useState(false);
   const [isProfileHovered, setIsProfileHovered] = useState(false);
+  const mobileCheck = useMediaQuery("(min-width:900px)");
+  const mobileCheck1 = useMediaQuery("(min-width:600px)");
 
   const defaultOptions = {
     loop: true,
@@ -20,14 +23,18 @@ const Home = ({ authenticated }) => {
     },
   };
   return (
-    <div className="w-full h-[90vh] flex flex-col relative items-center justify-evenly sm:flex-row px-9 sm:px-0 md:px-9  sm:mt-0 bg-[#f6f6fe] ">
+    <div
+      className={`w-full ${
+        mobileCheck
+          ? "h-[90vh] flex items-center justify-center px-9 "
+          : "flex px-10  items-center py-6"
+      }   bg-[#f6f6fe] `}
+    >
       <div className="flex flex-col gap-4  justify-center bg-[#f6f6fe] z-30">
-        <p className="font-semibold text-xl md:text-3xl">
+        <p className="font-semibold text-xl lg:text-3xl">
           THIAGARAJAR COLLEGE OF ENGINEERING PRESENTS
         </p>
-        <h1 className="font-bold md:text-5xl lg:text-8xl  text-4xl">
-          TECHUTSAV’ 2024
-        </h1>
+        <h1 className="font-bold lg:text-7xl   text-4xl">TECHUTSAV’ 2024</h1>
         <p className="text-xl">
           Decoding the Digital: Unveiling the future of tech.
         </p>
@@ -89,7 +96,11 @@ const Home = ({ authenticated }) => {
           </div>
         )}
       </div>
-      <div className="sm:w-1/3 w-[350px] sm:mt-0 bg-[#f6f6fe] z-30 hidden md:block">
+      <div
+        className={` bg-[#f6f6fe] z-30  ${
+          mobileCheck1 ? "w-[400px]" : "hidden"
+        }`}
+      >
         <Lottie options={defaultOptions} />
       </div>
     </div>

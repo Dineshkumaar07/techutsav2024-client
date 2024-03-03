@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../api/auth";
+import animationData from "../lotties/profile.json";
 
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-
-import ProfileOne from "../assets/user1.png";
+import Lottie from "react-lottie";
 
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 
@@ -15,8 +15,12 @@ import Footer from "./Footer";
 
 const Profile = () => {
   const [isLogoutHovered, setLogoutHover] = useState(false);
+  const [isVerifyHovered, setVerifyHovered] = useState(false);
+  const [isVerifyLoading, setVerifyLoading] = useState(false);
+
   const [isBack, setIsBack] = useState(false);
   const [transactionNumber, setTransactionNumber] = useState("");
+  const [isSeeMoreHovered, setIsSeeMoreHovered] = useState(false);
 
   const mobileCheck = useMediaQuery("(min-width: 900px)");
 
@@ -32,6 +36,17 @@ const Profile = () => {
     return "Not Verified";
   };
 
+  const defaultOptions = {
+    controls: false,
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+  // const animationData = require("../lotties/profile.json");
+
   return (
     <div>
       <div
@@ -45,10 +60,15 @@ const Profile = () => {
           } h-full flex flex-col items-center justify-center`}
         >
           <nav className={`w-full h-[50px] absolute top-5 left-5`}>
-            <Link to="/">
-              <Button variant="contained">
-                <KeyboardArrowLeftIcon /> Back
-              </Button>
+            <Link
+              to="/"
+              className={` px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md fixed md:block  ${
+                isSeeMoreHovered ? "hovered" : ""
+              }`}
+              onMouseEnter={() => setIsSeeMoreHovered(true)}
+              onMouseLeave={() => setIsSeeMoreHovered(false)}
+            >
+              Back
             </Link>
           </nav>
           <div className={`flex items-start flex-col gap-8 mt-5`}>
@@ -59,54 +79,77 @@ const Profile = () => {
             >
               PROFILE
             </h1>
-            {!mobileCheck && (
-              <img
-                src={ProfileOne}
-                alt=""
-                className={`w-[400px] aspect-[1/1] border rounded-[50%] p-10`}
-              />
+            {
+              !mobileCheck && (
+                <Lottie
+                  options={defaultOptions}
+                  // src={animationData}
+                  className={`w-[400px] aspect-[1/1] border rounded-[50%] p-10`}
+                  // height={100}
+                />
+              )
+              // <img
+              //   src={ProfileOne}
+              //   alt=""
+              //   className={`w-[400px] aspect-[1/1] border rounded-[50%] p-10`}
+              // />
+              // )
+            }
+            <table className="table-auto  ">
+              <tbody>
+                <tr>
+                  <td className={`font-semibold text-lg`}>Name:</td>{" "}
+                  {sessionStorage.getItem("name")}
+                </tr>
+                <tr>
+                  <td className={`font-semibold text-lg`}>Department:</td>{" "}
+                  {sessionStorage.getItem("department")}
+                </tr>
+                <tr>
+                  <td className={`font-semibold text-lg`}>College:</td>{" "}
+                  {sessionStorage.getItem("college")}
+                </tr>
+                <tr>
+                  <td className={`font-semibold text-lg`}>Phone:</td>{" "}
+                  {sessionStorage.getItem("phone")}
+                </tr>
+                <tr>
+                  <td className={`font-semibold text-lg`}>Email:</td>{" "}
+                  {sessionStorage.getItem("email")}
+                </tr>
+                <tr>
+                  <td className={`font-semibold pr-9 text-lg`}>
+                    Payment Status:
+                  </td>{" "}
+                  {verifyRequest()}
+                </tr>
+              </tbody>
+            </table>
+            {mobileCheck && (
+              <div>
+                <button
+                  to="/login"
+                  onClick={() => {
+                    api
+                      .get("auth/logout")
+                      .then((res) => {
+                        //console.log(res);
+                        window.location.replace("/");
+                      })
+                      .catch((err) => {
+                        //console.log(err);
+                      });
+                  }}
+                  className={` px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md  md:block ${
+                    isLogoutHovered ? "hovered" : ""
+                  }`}
+                  onMouseEnter={() => setLogoutHover(true)}
+                  onMouseLeave={() => setLogoutHover(false)}
+                >
+                  Logout
+                </button>
+              </div>
             )}
-            <Typography>
-              <span className={`font-semibold`}>Name:</span>{" "}
-              {sessionStorage.getItem("name")}
-            </Typography>
-            <Typography>
-              <span className={`font-semibold`}>Department:</span>{" "}
-              {sessionStorage.getItem("department")}
-            </Typography>
-            <Typography>
-              <span className={`font-semibold`}>College:</span>{" "}
-              {sessionStorage.getItem("college")}
-            </Typography>
-            <Typography>
-              <span className={`font-semibold`}>Phone:</span>{" "}
-              {sessionStorage.getItem("phone")}
-            </Typography>
-            <Typography>
-              <span className={`font-semibold`}>Email:</span>{" "}
-              {sessionStorage.getItem("email")}
-            </Typography>
-            <Typography>
-              <span className={`font-semibold`}>Payment Status:</span>{" "}
-              {verifyRequest()}
-            </Typography>
-            <Button
-              variant="contained"
-              to="/login"
-              onClick={() => {
-                api
-                  .get("auth/logout")
-                  .then((res) => {
-                    console.log(res);
-                    window.location.replace("/");
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                  });
-              }}
-            >
-              Logout
-            </Button>
           </div>
         </div>
         <div
@@ -114,17 +157,38 @@ const Profile = () => {
             mobileCheck ? "w-[50%]" : "w-[90%]"
           } h-full flex flex-col items-center justify-center`}
         >
-          {mobileCheck && (
-            <img
-              src={ProfileOne}
-              alt=""
-              className={`w-[400px] aspect-[1/1] border rounded-[50%] p-10`}
-            />
-          )}
+          {
+            mobileCheck && (
+              <div className="h-[400px]">
+                <Lottie options={defaultOptions} />
+              </div>
+            )
+            // (
+            //   <img
+            //     src={ProfileOne}
+            //     alt=""
+            //     className={`w-[400px] aspect-[1/1] border rounded-[50%] p-10`}
+            //   />
+            // )
+          }
           {!(verifyRequest() === "Payment Successful") && (
             <div>
               <div className={`text-1xl mt-3 flex items-center`}>
                 For Payment Details Download this file{" "}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-4 h-4 ml-2 "
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5"
+                  />
+                </svg>
                 <Button
                   sx={{ marginLeft: "10px" }}
                   onClick={() => {
@@ -148,53 +212,153 @@ const Profile = () => {
                   }}
                 />
               </div>
-              <Button
-                sx={{ marginTop: "15px" }}
-                variant="contained"
-                onClick={() => {
-                  console.log(transactionNumber);
-                  api
-                    .put("profile/updateProfile", {
-                      transactionNumber: transactionNumber,
-                    })
-                    .then((result) => {
-                      console.log(result);
-                      const status = api
-                        .get("profile/getProfile")
-                        .then((res) => {
-                          console.log(res);
-                          sessionStorage.setItem("name", res.data[0].fullName);
-                          sessionStorage.setItem("email", res.data[0].email);
-                          sessionStorage.setItem(
-                            "phone",
-                            res.data[0].phoneNumber
-                          );
-                          sessionStorage.setItem(
-                            "college",
-                            res.data[0].collegeName
-                          );
-                          sessionStorage.setItem(
-                            "department",
-                            res.data[0].department
-                          );
-                          sessionStorage.setItem("paid", res.data[0].paid);
-                          sessionStorage.setItem(
-                            "transactionNumber",
-                            res.data[0].transactionNumber
-                          );
-                          window.location.reload();
-                        })
-                        .catch((err) => {
-                          console.log("Not Authenticated");
-                        });
-                    })
-                    .catch((err) => {
-                      console.log(err);
-                    });
-                }}
+              <div
+                className={`flex items-end flex-row justify-center gap-3 mt-5`}
               >
-                Verify
-              </Button>
+                <button
+                  to="/login"
+                  onClick={() => {
+                    setVerifyLoading(true);
+                    //console.log(transactionNumber);
+                    api
+                      .put("profile/updateProfile", {
+                        transactionNumber: transactionNumber,
+                        fullName: sessionStorage.getItem("name"),
+                        email: sessionStorage.getItem("email"),
+                      })
+                      .then((result) => {
+                        //console.log(result);
+                        const status = api
+                          .get("profile/getProfile")
+                          .then((res) => {
+                            setVerifyLoading(false);
+                            //console.log(res);
+                            sessionStorage.setItem(
+                              "name",
+                              res.data[0].fullName
+                            );
+                            sessionStorage.setItem("email", res.data[0].email);
+                            sessionStorage.setItem(
+                              "phone",
+                              res.data[0].phoneNumber
+                            );
+                            sessionStorage.setItem(
+                              "college",
+                              res.data[0].collegeName
+                            );
+                            sessionStorage.setItem(
+                              "department",
+                              res.data[0].department
+                            );
+                            sessionStorage.setItem("paid", res.data[0].paid);
+                            sessionStorage.setItem(
+                              "transactionNumber",
+                              res.data[0].transactionNumber
+                            );
+                            window.location.reload();
+                          })
+                          .catch((err) => {
+                            //console.log("Not Authenticated");
+                          });
+                      })
+                      .catch((err) => {
+                        //console.log(err);
+                      });
+                  }}
+                  className={` px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md  md:block ${
+                    isVerifyHovered ? "hovered" : ""
+                  }`}
+                  onMouseEnter={() => setVerifyHovered(true)}
+                  onMouseLeave={() => setVerifyHovered(false)}
+                >
+                  Verify
+                </button>
+                {/* <button
+                  sx={{ marginTop: "15px" }}
+                  variant="contained"
+                  onClick={() => {
+                    //console.log(transactionNumber);
+                    api
+                      .put("profile/updateProfile", {
+                        transactionNumber: transactionNumber,
+                      })
+                      .then((result) => {
+                        //console.log(result);
+                        const status = api
+                          .get("profile/getProfile")
+                          .then((res) => {
+                            //console.log(res);
+                            sessionStorage.setItem(
+                              "name",
+                              res.data[0].fullName
+                            );
+                            sessionStorage.setItem("email", res.data[0].email);
+                            sessionStorage.setItem(
+                              "phone",
+                              res.data[0].phoneNumber
+                            );
+                            sessionStorage.setItem(
+                              "college",
+                              res.data[0].collegeName
+                            );
+                            sessionStorage.setItem(
+                              "department",
+                              res.data[0].department
+                            );
+                            sessionStorage.setItem("paid", res.data[0].paid);
+                            sessionStorage.setItem(
+                              "transactionNumber",
+                              res.data[0].transactionNumber
+                            );
+                            window.location.reload();
+                          })
+                          .catch((err) => {
+                            //console.log("Not Authenticated");
+                          });
+                      })
+                      .catch((err) => {
+                        //console.log(err);
+                      });
+                  }}
+                >
+                  Verify
+                </button> */}
+                {!mobileCheck && (
+                  <div>
+                    <button
+                      to="/login"
+                      onClick={() => {
+                        api
+                          .get("auth/logout")
+                          .then((res) => {
+                            //console.log(res);
+                            window.location.replace("/");
+                          })
+                          .catch((err) => {
+                            //console.log(err);
+                          });
+                      }}
+                      className={` px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md  md:block ${
+                        isLogoutHovered ? "hovered" : ""
+                      }`}
+                      onMouseEnter={() => setLogoutHover(true)}
+                      onMouseLeave={() => setLogoutHover(false)}
+                    >
+                      Logout
+                    </button>
+                    <Link
+                      to="/"
+                      className={` px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md fixed md:block ${
+                        isSeeMoreHovered ? "hovered" : ""
+                      }`}
+                      onMouseEnter={() => setIsSeeMoreHovered(true)}
+                      onMouseLeave={() => setIsSeeMoreHovered(false)}
+                    >
+                      Back
+                    </Link>
+                  </div>
+                )}
+              </div>
               {verifyRequest() === "Requested for Verification" && (
                 <p className={`max-w-[400px] mt-[20px] text-[#FF1717]`}>
                   Your Verification request has been sent. Please wait for the
@@ -241,7 +405,7 @@ const Profile = () => {
   //           <span className="font-bold"> Department</span> :
   //           <span> {sessionStorage.getItem("department")}</span>
   //         </p>
-  //         {console.log(sessionStorage.getItem("paid"))}
+  //         {//console.log(sessionStorage.getItem("paid"))}
   //         {sessionStorage.getItem("paid") === "true" ? (
   //           <p>
   //             <span className="font-bold"> Paid</span> :
@@ -289,11 +453,11 @@ const Profile = () => {
   //             api
   //               .get("auth/logout")
   //               .then((res) => {
-  //                 console.log(res);
+  //                 //console.log(res);
   //                 window.location.reload();
   //               })
   //               .catch((err) => {
-  //                 console.log(err);
+  //                 //console.log(err);
   //               });
   //           }}
   //           to="/"
