@@ -11,17 +11,14 @@ const faqs = [
     question: "Can we register on spot?",
     answer: "Yes, you can register on spot for the events.",
   },
-  {
-    question: "Can we Pay the fees on spot?",
-    answer: "Yes, you can pay the fees in offline at the spot.",
-  },
+
   {
     question: "What are the events we can attend?",
     answer:
-      "You can attend all the Events including Workshop in every department",
+      "You can attend all the Events of the particular department and  can attend workshop irrespective of the department chosen ",
   },
   {
-    question: "Will Meals will be provided?",
+    question: "Will Meals be provided?",
     answer: "Yes Meals will be provided afternoon (Vegetarian).",
   },
   {

@@ -12,7 +12,7 @@ const MoreEvents = () => {
     "All",
     "Computer Science and Engineering",
     "Information Technology",
-    "Computer Science and Business System",
+    "Computer Science and Business Systems",
     "Applied Mathematics and Computational Science",
   ];
   const { departmentName } = useParams();
@@ -70,7 +70,7 @@ const MoreEvents = () => {
   return (
     <div>
       <div
-        className="flex flex-col items-center justify-center w-full gap-6 p-9 relative"
+        className="flex flex-col items-center justify-center w-full gap-6 p-9 relative min-h-screen"
         ref={scrollUp}
       >
         <h1 className="text-5xl font-bold">TECHUTSAV 2024</h1>
@@ -146,9 +146,9 @@ const MoreEvents = () => {
             Back
           </Link>
         </div>
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-9 place-items-center justify-items-center  w-full ">
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-9 place-items-center justify-items-center w-full ">
           {loading ? (
-            <CardSkeleton cards={9} />
+            <CardSkeleton cards={3} />
           ) : (
             eventDetails.map((event) => (
               <Event

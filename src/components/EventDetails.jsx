@@ -53,7 +53,7 @@ function EventDetails() {
           mobileCheck ? "h-screen" : "h-fit"
         } w-full flex items-center justify-evenly ${
           mobileCheck ? "overflow-hidden" : "overflow-y-scroll"
-        } ${!mobileCheck ? "flex-col" : "flex-row"}`}
+        } ${!mobileCheck ? "flex-col" : "flex-row"} min-h-screen`}
       >
         <div
           className={`${

@@ -49,7 +49,7 @@ const Contact = () => {
   const divStyle = "flex items-center gap-5";
 
   return (
-    <div className="w-full  pt-16  flex flex-col overflow-x-hidden px-9 ">
+    <div className="w-full  pt-16  flex flex-col overflow-x-hidden md:px-9 ">
       <h1 className="text-6xl sm:text-9xl font-bold text-black/40">CONTACT</h1>
 
       <div
@@ -135,7 +135,7 @@ const Contact = () => {
             </svg>
             <div>
               <p>For Event details :-</p>
-              <p>Balaji SS : 9360449229</p>
+              <p>Jagajeet Puttaa : 7010570545</p>
               <p>Dharsana V : 9344575630</p>
             </div>
           </div>
