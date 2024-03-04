@@ -6,6 +6,7 @@ import CardSkeleton from "../components/CardSkeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useMediaQuery } from "@mui/material";
 import Department from "../components/Department";
+import Flagship from "../components/Flagship";
 
 const Events = () => {
   const [isSeeMoreHovered, setIsSeeMoreHovered] = useState(false);
@@ -14,16 +15,17 @@ const Events = () => {
 
   const [flagShipEvents, setFlagShipEvents] = useState([]);
 
-  const [loading, setLoading] = useState(true);
   const [flagshipLoading, setFlagshipLoading] = useState(true);
 
   const departments = ["CSE", "IT", "CSBS", "DS"];
 
   useEffect(() => {
+    setFlagshipLoading(true);
     api
       .get("event/getFlagshipEvents")
       .then((result) => {
         setFlagShipEvents(result.data);
+        setFlagshipLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -38,14 +40,14 @@ const Events = () => {
           <h1 className="font-semibold text-xl sm:text-3xl">Workshop</h1>
         </div>
         <div className="w-full mt-5 flex justify-center">
-          {flagShipEvents.length === 0 ? (
-            <div>Failed to Load Data.. Please Refresh the Page!</div>
+          {flagshipLoading ? (
+            <CardSkeleton cards={1} />
           ) : (
             flagShipEvents.map((element) => {
               console.log(element);
               return (
-                <div className="lg:w-[50%] md:w-[80%] w-[90%]">
-                  <Event
+                <div className="flex w-full sm:justify-center">
+                  <Flagship
                     uniqueName={element["uniqueName"]}
                     eventName={element["eventName"]}
                     eventDescription={element["eventAbstract"]}
