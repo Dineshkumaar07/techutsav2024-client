@@ -58,6 +58,13 @@ const Profile = () => {
     return "Not Verified";
   };
 
+  const displayButton = () => {
+    if (!mobileCheck && verifyRequest() === "Payment Successful") {
+      return true;
+    }
+    return false;
+  };
+
   const defaultOptions = {
     controls: false,
     loop: true,
@@ -363,6 +370,41 @@ const Profile = () => {
                   the site.
                 </p>
               )}
+            </div>
+          )}
+          {displayButton() && (
+            <div className="w-full mt-5">
+              <button
+                to="/login"
+                onClick={() => {
+                  api
+                    .get("auth/logout")
+                    .then((res) => {
+                      //console.log(res);
+                      window.location.replace("/");
+                    })
+                    .catch((err) => {
+                      //console.log(err);
+                    });
+                }}
+                className={` px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md  md:block ${
+                  isLogoutHovered ? "hovered" : ""
+                }`}
+                onMouseEnter={() => setLogoutHover(true)}
+                onMouseLeave={() => setLogoutHover(false)}
+              >
+                Logout
+              </button>
+              <Link
+                to="/"
+                className={` px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md fixed md:block ${
+                  isSeeMoreHovered ? "hovered" : ""
+                }`}
+                onMouseEnter={() => setIsSeeMoreHovered(true)}
+                onMouseLeave={() => setIsSeeMoreHovered(false)}
+              >
+                Back
+              </Link>
             </div>
           )}
         </div>
