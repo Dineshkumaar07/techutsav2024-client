@@ -395,16 +395,6 @@ const Profile = () => {
               >
                 Logout
               </button>
-              <Link
-                to="/"
-                className={` px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md fixed md:block ${
-                  isSeeMoreHovered ? "hovered" : ""
-                }`}
-                onMouseEnter={() => setIsSeeMoreHovered(true)}
-                onMouseLeave={() => setIsSeeMoreHovered(false)}
-              >
-                Back
-              </Link>
             </div>
           )}
         </div>
