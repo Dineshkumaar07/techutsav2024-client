@@ -5,6 +5,10 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../../api/auth.js";
 
+import { SnackbarComponent } from "../../components/SnackbarComponent.jsx";
+
+import Paper from "@mui/material/Paper";
+
 const Register = () => {
   let navigate = useNavigate();
   const button =
@@ -34,23 +38,36 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
 
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarMessageBack, setSnackbarMessageBack] = useState("green");
+
   const handlePage1 = () => {
     if (name.length != 0 && email.length != 0 && phoneNumber.length != 0) {
       setIncomplete(false);
       if (name.length <= 5) {
-        setIsValidName(!name);
+        setIsValidName(false);
+        setSnackbarOpen(true);
+        setSnackbarMessage("Enter a Valid Name");
+        setSnackbarMessageBack("red");
         return;
       } else {
         setIsValidName(true);
       }
       if (!emailRegex.test(email)) {
         setIsValidEmail(false);
+        setSnackbarOpen(true);
+        setSnackbarMessage("Enter Valid Mail Id");
+        setSnackbarMessageBack("red");
         return;
       } else {
         setIsValidEmail(true);
       }
       if (!phoneRegex.test(phoneNumber)) {
         setIsValidPhoneNumber(false);
+        setSnackbarOpen(true);
+        setSnackbarMessage("Enter Valid Phone number");
+        setSnackbarMessageBack("red");
         return;
       } else {
         setIsValidPhoneNumber(true);
@@ -58,6 +75,9 @@ const Register = () => {
       setPage(page + 1);
     } else {
       setIncomplete(true);
+      setSnackbarOpen(true);
+      setSnackbarMessage("Complete all details");
+      setSnackbarMessageBack("red");
     }
   };
 
@@ -74,14 +94,23 @@ const Register = () => {
         return;
       } else {
         setIsValidPassword(true);
+        setSnackbarOpen(true);
+        setSnackbarMessage("Password Min Length 6");
+        setSnackbarMessageBack("red");
       }
       if (password !== confirmPassword) {
         setPasswordMismatch(true);
+        setSnackbarOpen(true);
+        setSnackbarMessage("Password dont match");
+        setSnackbarMessageBack("red");
         return;
       } else {
         setPasswordMismatch(false);
       }
       setLoading(true);
+      setSnackbarOpen(true);
+      setSnackbarMessage("Registering ...");
+      setSnackbarMessageBack("green");
 
       api
         .post(`auth/signup`, {
@@ -100,15 +129,21 @@ const Register = () => {
         .catch((err) => {
           //console.log(err);
           setLoading(false);
+          setSnackbarOpen(true);
+          setSnackbarMessage("Error");
+          setSnackbarMessageBack("red");
         });
     } else {
       setIncomplete2(true);
+      setSnackbarOpen(true);
+      setSnackbarMessage("Complete All Details");
+      setSnackbarMessageBack("red");
     }
   };
 
   return (
     <div className="flex flex-col h-screen items-center justify-center font-poppins ">
-      <div className="flex flex-col justify-center items-center gap-5 border-2 border-black rounded-xl p-5">
+      <Paper elevation={2} className="flex flex-col justify-center items-center gap-5 rounded-xl p-5">
         <h1 className="text-4xl font-bold">TECHUTSAV 2024</h1>
         <h2 className="font-semibold text-3xl">REGISTRATION</h2>
         <div className="bg-white/50 w-96 h-fit p-7 flex flex-col justify-center rounded-xl relative font-poppins">
@@ -177,18 +212,6 @@ const Register = () => {
                     Next
                   </button>
                 </div>
-                {incomplete && (
-                  <div className="text-red-500"> Complete all details</div>
-                )}
-                {!isValidEmail && (
-                  <div className="text-red-500">Enter Valid Mail Id</div>
-                )}
-                {!isValidPhoneNumber && (
-                  <div className="text-red-500">Enter Valid Phone number</div>
-                )}
-                {!isValidName && (
-                  <div className="text-red-500">Enter a Valid Name</div>
-                )}
               </div>
             )}
             {page === 2 && (
@@ -299,21 +322,12 @@ const Register = () => {
                     Submit
                   </button>
                 </div>
-                {!isValidPassword && (
-                  <p className="text-red-500">Password Min Length 6</p>
-                )}
-                {passwordMismatch && (
-                  <p className="text-red-500">Password dont match</p>
-                )}
-                {incomplete2 && (
-                  <p className="text-red-500">Complete All Details</p>
-                )}
               </div>
             )}
           </form>
-          {loading && <p className="mt-5">Registering ...</p>}
         </div>
-      </div>
+      </Paper>
+      <SnackbarComponent open={snackbarOpen} message={snackbarMessage} messageBack={snackbarMessageBack} setOpen={setSnackbarOpen} />
     </div>
   );
 };
