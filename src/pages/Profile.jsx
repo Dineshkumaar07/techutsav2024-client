@@ -74,7 +74,10 @@ const Profile = () => {
           "transactionNumber",
           res.data[0].transactionNumber
         );
-        sessionStorage.setItem("selectedDepartment", res.data[0].selectedDepartment);
+        sessionStorage.setItem(
+          "selectedDepartment",
+          res.data[0].selectedDepartment
+        );
         setTransactionNumber(res.data[0].transactionNumber);
         if (res.data[0].transactionNumber.length !== 0) {
           setDisabledState(true);
@@ -94,7 +97,7 @@ const Profile = () => {
   const [transactionNumber, setTransactionNumber] = useState("");
   const [isSeeMoreHovered, setIsSeeMoreHovered] = useState(false);
 
-  const [disabledState, setDisabledState] = useState(true);
+  const [disabledState, setDisabledState] = useState(false);
 
   const mobileCheck = useMediaQuery("(min-width: 900px)");
 
@@ -200,69 +203,80 @@ const Profile = () => {
                   <td className={`font-semibold pr-9 text-lg`}>
                     Interested Department:{" "}
                   </td>
-                  <div className="border-2 w-full rounded-lg inline py-2 ">
-                    <React.Fragment>
-                      <ButtonGroup
-                        variant="outline"
-                        ref={anchorRef}
-                        aria-label="Button group with a nested menu"
-                      >
-                        <Button onClick={handleClick}>
-                          {options[selectedIndex]}
-                        </Button>
-                        <Button
-                          size="small"
-                          aria-controls={open ? "split-button-menu" : undefined}
-                          aria-expanded={open ? "true" : undefined}
-                          aria-label="select merge strategy"
-                          aria-haspopup="menu"
-                          onClick={handleToggle}
+                  {disabledState ? (
+                    <>
+                      {sessionStorage.getItem("selectedDepartment")}
+                    </>
+                  ) : (
+                    <div className="border-2 w-full rounded-lg inline py-2 ">
+                      <React.Fragment>
+                        <ButtonGroup
+                          variant="outline"
+                          ref={anchorRef}
+                          aria-label="Button group with a nested menu"
                         >
-                          <ArrowDropDownIcon />
-                        </Button>
-                      </ButtonGroup>
-                      <Popper
-                        sx={{
-                          zIndex: 1,
-                        }}
-                        open={open}
-                        anchorEl={anchorRef.current}
-                        role={undefined}
-                        transition
-                        disablePortal
-                      >
-                        {({ TransitionProps, placement }) => (
-                          <Grow
-                            {...TransitionProps}
-                            style={{
-                              transformOrigin:
-                                placement === "bottom"
-                                  ? "center top"
-                                  : "center bottom",
-                            }}
+                          <Button onClick={handleClick}>
+                            {options[selectedIndex]}
+                          </Button>
+                          <Button
+                            size="small"
+                            aria-controls={
+                              open ? "split-button-menu" : undefined
+                            }
+                            aria-expanded={open ? "true" : undefined}
+                            aria-label="select merge strategy"
+                            aria-haspopup="menu"
+                            onClick={handleToggle}
                           >
-                            <Paper>
-                              <ClickAwayListener onClickAway={handleClose}>
-                                <MenuList id="split-button-menu" autoFocusItem>
-                                  {options.map((option, index) => (
-                                    <MenuItem
-                                      key={option}
-                                      selected={index === selectedIndex}
-                                      onClick={(event) =>
-                                        handleMenuItemClick(event, index)
-                                      }
-                                    >
-                                      {option}
-                                    </MenuItem>
-                                  ))}
-                                </MenuList>
-                              </ClickAwayListener>
-                            </Paper>
-                          </Grow>
-                        )}
-                      </Popper>
-                    </React.Fragment>
-                  </div>
+                            <ArrowDropDownIcon />
+                          </Button>
+                        </ButtonGroup>
+                        <Popper
+                          sx={{
+                            zIndex: 1,
+                          }}
+                          open={open}
+                          anchorEl={anchorRef.current}
+                          role={undefined}
+                          transition
+                          disablePortal
+                        >
+                          {({ TransitionProps, placement }) => (
+                            <Grow
+                              {...TransitionProps}
+                              style={{
+                                transformOrigin:
+                                  placement === "bottom"
+                                    ? "center top"
+                                    : "center bottom",
+                              }}
+                            >
+                              <Paper>
+                                <ClickAwayListener onClickAway={handleClose}>
+                                  <MenuList
+                                    id="split-button-menu"
+                                    autoFocusItem
+                                  >
+                                    {options.map((option, index) => (
+                                      <MenuItem
+                                        key={option}
+                                        selected={index === selectedIndex}
+                                        onClick={(event) =>
+                                          handleMenuItemClick(event, index)
+                                        }
+                                      >
+                                        {option}
+                                      </MenuItem>
+                                    ))}
+                                  </MenuList>
+                                </ClickAwayListener>
+                              </Paper>
+                            </Grow>
+                          )}
+                        </Popper>
+                      </React.Fragment>
+                    </div>
+                  )}
                 </tr>
               </tbody>
             </table>
