@@ -35,6 +35,7 @@ const Home = ({ authenticated }) => {
           THIAGARAJAR COLLEGE OF ENGINEERING PRESENTS
         </p>
         <h1 className="font-bold lg:text-7xl   text-4xl">TECHUTSAV’ 2024</h1>
+        <p className="lg:text-5xl text-3xl">On 13th March</p>
         <p className="text-xl">
           Decoding the Digital: Unveiling the future of tech.
         </p>

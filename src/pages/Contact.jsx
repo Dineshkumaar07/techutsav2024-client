@@ -30,10 +30,10 @@ const Contact = () => {
 
     emailjs
       .sendForm(
-        import.meta.env.VITE_SERVICE_ID,
-        import.meta.env.VITE_TEMPLATE_ID,
+        "service_hfliycc",
+        "template_q1261ss",
         form.current,
-        import.meta.env.VITE_PUBLIC_KEY
+        "JHO3oqwF8Fy30v7RD"
       )
       .then(
         (result) => {

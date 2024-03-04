@@ -8,7 +8,7 @@ import { useMediaQuery } from "@mui/material";
 
 const Events = () => {
   const [isSeeMoreHovered, setIsSeeMoreHovered] = useState(false);
-  const check = useMediaQuery("(min-width:777px)");
+  const check = useMediaQuery("(min-width:750px)");
   const maxCheck = useMediaQuery("(max-width:1024px)");
 
   const [eventDetails, setEventDetails] = useState([]);
