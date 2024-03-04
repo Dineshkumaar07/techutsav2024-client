@@ -13,6 +13,8 @@ import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import { useMediaQuery } from "@mui/material";
 import Footer from "./Footer";
 
+import { MainLoader } from "../components/MainLoader";
+
 const Profile = () => {
   const [verify, setVerify] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -81,11 +83,7 @@ const Profile = () => {
   // const animationData = require("../lotties/profile.json");
 
   if (loading) {
-    return (
-      <Box sx={{ display: "flex", width: "100%", height: "100vh", alignItems: "center", justifyContent: "center" }}>
-        <CircularProgress />
-      </Box>
-    );
+    return <MainLoader />;
   }
 
   return (
