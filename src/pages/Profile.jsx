@@ -22,11 +22,17 @@ import Popper from "@mui/material/Popper";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 
+import { SnackbarComponent } from "../components/SnackbarComponent";
+
 const Profile = () => {
   const options = ["Not Selected", "CSE", "IT", "CSBS", "DS"];
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [messageBack, setMessageBack] = useState("green");
 
   const handleClick = () => {
     console.info(`You clicked ${options[selectedIndex]}`);
@@ -68,6 +74,11 @@ const Profile = () => {
           "transactionNumber",
           res.data[0].transactionNumber
         );
+        sessionStorage.setItem("selectedDepartment", res.data[0].selectedDepartment);
+        setTransactionNumber(res.data[0].transactionNumber);
+        if (res.data[0].transactionNumber.length !== 0) {
+          setDisabledState(true);
+        }
         setLoading(false);
       })
       .catch((err) => {
@@ -82,6 +93,8 @@ const Profile = () => {
   const [isBack, setIsBack] = useState(false);
   const [transactionNumber, setTransactionNumber] = useState("");
   const [isSeeMoreHovered, setIsSeeMoreHovered] = useState(false);
+
+  const [disabledState, setDisabledState] = useState(true);
 
   const mobileCheck = useMediaQuery("(min-width: 900px)");
 
@@ -342,6 +355,7 @@ const Profile = () => {
                   className={`mt-5 h-[30px] p-5 min-w-[200px] border`}
                   placeholder="Transaction Number"
                   value={transactionNumber}
+                  disabled={disabledState}
                   onChange={(event) => {
                     setTransactionNumber(event.target.value);
                   }}
@@ -353,22 +367,36 @@ const Profile = () => {
                 <button
                   to="/login"
                   onClick={() => {
-                    setVerifyLoading(true);
+                    if (selectedIndex === 0) {
+                      setSnackbarOpen(true);
+                      setMessage("Select Any one Department");
+                      setMessageBack("red");
+                    } else if (transactionNumber.length === 0) {
+                      setSnackbarOpen(true);
+                      setMessage("Enter your Transaction Number");
+                      setMessageBack("red");
+                    } else {
+                      setVerifyLoading(true);
+                      setMessage("Submitting...");
+                      setMessageBack("green");
+                      api
+                        .put("profile/updateProfile", {
+                          transactionNumber: transactionNumber,
+                          fullName: sessionStorage.getItem("name"),
+                          email: sessionStorage.getItem("email"),
+                          selectedDepartment: options[selectedIndex],
+                        })
+                        .then((result) => {
+                          setVerify(!verify);
+                          setMessage("Submitted");
+                          setMessageBack("green");
+                          //console.log(result);
+                        })
+                        .catch((err) => {
+                          //console.log(err);
+                        });
+                    }
                     //console.log(transactionNumber);
-                    api
-                      .put("profile/updateProfile", {
-                        transactionNumber: transactionNumber,
-                        fullName: sessionStorage.getItem("name"),
-                        email: sessionStorage.getItem("email"),
-                        selectedDepartment: options[selectedIndex],
-                      })
-                      .then((result) => {
-                        setVerify(!verify);
-                        //console.log(result);
-                      })
-                      .catch((err) => {
-                        //console.log(err);
-                      });
                   }}
                   className={` px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md  md:block ${
                     isVerifyHovered ? "hovered" : ""
@@ -520,6 +548,12 @@ const Profile = () => {
           )}
         </div>
       </div>
+      <SnackbarComponent
+        open={snackbarOpen}
+        message={message}
+        messageBack={messageBack}
+        setOpen={setSnackbarOpen}
+      />
       <Footer />
     </div>
   );
