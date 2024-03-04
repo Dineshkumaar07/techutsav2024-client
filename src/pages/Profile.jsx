@@ -163,6 +163,13 @@ const Profile = () => {
                       .get("auth/logout")
                       .then((res) => {
                         //console.log(res);
+                        sessionStorage.removeItem("name");
+                        sessionStorage.removeItem("email");
+                        sessionStorage.removeItem("college");
+                        sessionStorage.removeItem("paid");
+                        sessionStorage.removeItem("department");
+                        sessionStorage.removeItem("transactionNumber");
+                        sessionStorage.removeItem("phone");
                         window.location.replace("/");
                       })
                       .catch((err) => {
@@ -335,6 +342,13 @@ const Profile = () => {
                           .get("auth/logout")
                           .then((res) => {
                             //console.log(res);
+                            sessionStorage.removeItem("name");
+                            sessionStorage.removeItem("email");
+                            sessionStorage.removeItem("college");
+                            sessionStorage.removeItem("paid");
+                            sessionStorage.removeItem("department");
+                            sessionStorage.removeItem("transactionNumber");
+                            sessionStorage.removeItem("phone");
                             window.location.replace("/");
                           })
                           .catch((err) => {
@@ -381,6 +395,13 @@ const Profile = () => {
                     .get("auth/logout")
                     .then((res) => {
                       //console.log(res);
+                      sessionStorage.removeItem("name");
+                      sessionStorage.removeItem("email");
+                      sessionStorage.removeItem("college");
+                      sessionStorage.removeItem("paid");
+                      sessionStorage.removeItem("department");
+                      sessionStorage.removeItem("transactionNumber");
+                      sessionStorage.removeItem("phone");
                       window.location.replace("/");
                     })
                     .catch((err) => {
