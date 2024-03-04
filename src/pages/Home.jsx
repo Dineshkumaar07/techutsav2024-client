@@ -31,11 +31,16 @@ const Home = ({ authenticated }) => {
       }   bg-[#f6f6fe] `}
     >
       <div className="flex flex-col gap-4  justify-center bg-[#f6f6fe] z-30">
-        <p className="font-semibold text-xl lg:text-3xl">
+        <p className=" text-xl lg:text-3xl tracking-wide">
           THIAGARAJAR COLLEGE OF ENGINEERING PRESENTS
         </p>
-        <h1 className="font-bold lg:text-7xl   text-4xl">TECHUTSAV’ 2024</h1>
-        <p className="lg:text-5xl text-3xl">On 13th March</p>
+        <h1 className="font-bold lg:text-7xl text-4xl tracking-wider">
+          INNOHACKS'24
+        </h1>
+        {/* <h1 className="font-bold lg:text-5xl text-3xl tracking-wider">
+          TECHUTSAV’ 2024
+        </h1> */}
+        <p className="lg:text-4xl text-2xl">On 13th March</p>
         <p className="text-xl">
           Decoding the Digital: Unveiling the future of tech.
         </p>

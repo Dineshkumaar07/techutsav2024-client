@@ -1,14 +1,30 @@
 import React, { useState, useEffect, useRef } from "react";
 import Event from "../components/Event";
 import { Link } from "react-router-dom";
-
 import { api } from "../api/auth";
 import Footer from "./Footer";
-
 import CardSkeleton from "../components/CardSkeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import Button from "@mui/material/Button";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Grow from "@mui/material/Grow";
+import Paper from "@mui/material/Paper";
+import Popper from "@mui/material/Popper";
+import MenuItem from "@mui/material/MenuItem";
+import MenuList from "@mui/material/MenuList";
 
 const MoreEvents = () => {
+  const originalNames = [
+    "All",
+    "Computer Science and Engineering",
+    "Information Technology",
+    "Computer Science and Business System",
+    "Applied Mathematics and Computational Science",
+  ];
+
+  const options = ["All", "CSE", "IT", "CSBS", "DS"];
   const [isSeeMoreHovered, setIsSeeMoreHovered] = useState(false);
   const scrollUp = useRef(null);
   useEffect(() => {
@@ -18,110 +34,46 @@ const MoreEvents = () => {
   const [eventDetails, setEventDetails] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  //Toggle
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+
+  const handleClick = () => {
+    console.info(`You clicked ${options[selectedIndex]}`);
+  };
+
+  const handleMenuItemClick = (event, index) => {
+    console.log(options[index]);
+    setSelectedIndex(index);
+    setOpen(false);
+  };
+
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   useEffect(() => {
     api
-      .get("event/getAll")
+      .post("event/getSpecificEvents", {
+        departmentName: originalNames[selectedIndex],
+      })
       .then((result) => {
         setEventDetails(result.data);
         setLoading(false);
       })
       .catch((err) => {
-        //console.log(err);
+        console.log(err);
       });
-  }, []);
-
-  // const events = [
-  //   {
-  //     eventName: "Event",
-  //     description:
-  //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-  //     images: "https://csi.coep.org.in/csi_logo.png",
-  //   },
-  //   {
-  //     eventName: "Event",
-  //     description:
-  //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-  //     images: "https://csi.coep.org.in/csi_logo.png",
-  //   },
-  //   {
-  //     eventName: "Event",
-  //     description:
-  //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-  //     images: "https://csi.coep.org.in/csi_logo.png",
-  //   },
-  //   {
-  //     eventName: "Event",
-  //     description:
-  //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-  //     images: "https://csi.coep.org.in/csi_logo.png",
-  //   },
-  //   {
-  //     eventName: "Event",
-  //     description:
-  //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-  //     images: "https://csi.coep.org.in/csi_logo.png",
-  //   },
-  //   {
-  //     eventName: "Event",
-  //     description:
-  //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-  //     images: "https://csi.coep.org.in/csi_logo.png",
-  //   },
-  //   {
-  //     eventName: "Event",
-  //     description:
-  //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-  //     images: "https://csi.coep.org.in/csi_logo.png",
-  //   },
-  //   {
-  //     eventName: "Event",
-  //     description:
-  //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-  //     images: "https://csi.coep.org.in/csi_logo.png",
-  //   },
-  //   {
-  //     eventName: "Event",
-  //     description:
-  //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-  //     images: "https://csi.coep.org.in/csi_logo.png",
-  //   },
-  //   {
-  //     eventName: "Event",
-  //     description:
-  //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-  //     images: "https://csi.coep.org.in/csi_logo.png",
-  //   },
-  //   {
-  //     eventName: "Event",
-  //     description:
-  //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-  //     images: "https://csi.coep.org.in/csi_logo.png",
-  //   },
-  //   {
-  //     eventName: "Event",
-  //     description:
-  //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-  //     images: "https://csi.coep.org.in/csi_logo.png",
-  //   },
-  //   {
-  //     eventName: "Event",
-  //     description:
-  //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-  //     images: "https://csi.coep.org.in/csi_logo.png",
-  //   },
-  //   {
-  //     eventName: "Event",
-  //     description:
-  //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-  //     images: "https://csi.coep.org.in/csi_logo.png",
-  //   },
-  //   {
-  //     eventName: "Event",
-  //     description:
-  //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-  //     images: "https://csi.coep.org.in/csi_logo.png",
-  //   },
-  // ];
+  }, [selectedIndex]);
 
   return (
     <div>
@@ -132,6 +84,65 @@ const MoreEvents = () => {
         <h1 className="text-5xl font-bold">TECHUTSAV 2024</h1>
         <h2 className="text-4xl font-bold">EVENTS</h2>
         <div className="w-full flex justify-end">
+          <div className="border-2 border-black rounded-lg mr-9">
+            <React.Fragment>
+              <ButtonGroup
+                variant="outline"
+                ref={anchorRef}
+                aria-label="Button group with a nested menu"
+              >
+                <Button onClick={handleClick}>{options[selectedIndex]}</Button>
+                <Button
+                  size="small"
+                  aria-controls={open ? "split-button-menu" : undefined}
+                  aria-expanded={open ? "true" : undefined}
+                  aria-label="select merge strategy"
+                  aria-haspopup="menu"
+                  onClick={handleToggle}
+                >
+                  <ArrowDropDownIcon />
+                </Button>
+              </ButtonGroup>
+              <Popper
+                sx={{
+                  zIndex: 1,
+                }}
+                open={open}
+                anchorEl={anchorRef.current}
+                role={undefined}
+                transition
+                disablePortal
+              >
+                {({ TransitionProps, placement }) => (
+                  <Grow
+                    {...TransitionProps}
+                    style={{
+                      transformOrigin:
+                        placement === "bottom" ? "center top" : "center bottom",
+                    }}
+                  >
+                    <Paper>
+                      <ClickAwayListener onClickAway={handleClose}>
+                        <MenuList id="split-button-menu" autoFocusItem>
+                          {options.map((option, index) => (
+                            <MenuItem
+                              key={option}
+                              selected={index === selectedIndex}
+                              onClick={(event) =>
+                                handleMenuItemClick(event, index)
+                              }
+                            >
+                              {option}
+                            </MenuItem>
+                          ))}
+                        </MenuList>
+                      </ClickAwayListener>
+                    </Paper>
+                  </Grow>
+                )}
+              </Popper>
+            </React.Fragment>
+          </div>
           <Link
             to="/"
             className={` px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md  ${

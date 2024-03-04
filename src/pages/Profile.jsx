@@ -1,21 +1,54 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../api/auth";
 import animationData from "../lotties/profile.json";
-
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+
 import Lottie from "react-lottie";
-
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
-
 import { useMediaQuery } from "@mui/material";
 import Footer from "./Footer";
-
 import MainLoader from "../components/MainLoader";
 
+import * as React from "react";
+import Button from "@mui/material/Button";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Grow from "@mui/material/Grow";
+import Paper from "@mui/material/Paper";
+import Popper from "@mui/material/Popper";
+import MenuItem from "@mui/material/MenuItem";
+import MenuList from "@mui/material/MenuList";
+
 const Profile = () => {
+  const options = ["Not Selected", "CSE", "IT", "CSBS", "DS"];
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+
+  const handleClick = () => {
+    console.info(`You clicked ${options[selectedIndex]}`);
+  };
+
+  const handleMenuItemClick = (event, index) => {
+    console.log(options[index]);
+    setSelectedIndex(index);
+    setOpen(false);
+  };
+
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setOpen(false);
+  };
   const [verify, setVerify] = useState(false);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -80,11 +113,11 @@ const Profile = () => {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
-  // const animationData = require("../lotties/profile.json");
 
   if (loading) {
     return <MainLoader />;
   }
+  //Toggle
 
   return (
     <div>
@@ -118,22 +151,12 @@ const Profile = () => {
             >
               PROFILE
             </h1>
-            {
-              !mobileCheck && (
-                <Lottie
-                  options={defaultOptions}
-                  // src={animationData}
-                  className={`w-[400px] aspect-[1/1] border rounded-[50%] p-10`}
-                  // height={100}
-                />
-              )
-              // <img
-              //   src={ProfileOne}
-              //   alt=""
-              //   className={`w-[400px] aspect-[1/1] border rounded-[50%] p-10`}
-              // />
-              // )
-            }
+            {!mobileCheck && (
+              <Lottie
+                options={defaultOptions}
+                className={`w-[400px] aspect-[1/1] border rounded-[50%] p-10`}
+              />
+            )}
             <table className="table-auto  ">
               <tbody>
                 <tr>
@@ -157,10 +180,76 @@ const Profile = () => {
                   {sessionStorage.getItem("email")}
                 </tr>
                 <tr>
-                  <td className={`font-semibold pr-9 text-lg`}>
-                    Payment Status:
-                  </td>{" "}
+                  <td className={`font-semibold  text-lg`}>Payment Status:</td>{" "}
                   {verifyRequest()}
+                </tr>
+                <tr>
+                  <td className={`font-semibold pr-9 text-lg`}>
+                    Interested Department:{" "}
+                  </td>
+                  <div className="border-2 w-full rounded-lg inline py-2 ">
+                    <React.Fragment>
+                      <ButtonGroup
+                        variant="outline"
+                        ref={anchorRef}
+                        aria-label="Button group with a nested menu"
+                      >
+                        <Button onClick={handleClick}>
+                          {options[selectedIndex]}
+                        </Button>
+                        <Button
+                          size="small"
+                          aria-controls={open ? "split-button-menu" : undefined}
+                          aria-expanded={open ? "true" : undefined}
+                          aria-label="select merge strategy"
+                          aria-haspopup="menu"
+                          onClick={handleToggle}
+                        >
+                          <ArrowDropDownIcon />
+                        </Button>
+                      </ButtonGroup>
+                      <Popper
+                        sx={{
+                          zIndex: 1,
+                        }}
+                        open={open}
+                        anchorEl={anchorRef.current}
+                        role={undefined}
+                        transition
+                        disablePortal
+                      >
+                        {({ TransitionProps, placement }) => (
+                          <Grow
+                            {...TransitionProps}
+                            style={{
+                              transformOrigin:
+                                placement === "bottom"
+                                  ? "center top"
+                                  : "center bottom",
+                            }}
+                          >
+                            <Paper>
+                              <ClickAwayListener onClickAway={handleClose}>
+                                <MenuList id="split-button-menu" autoFocusItem>
+                                  {options.map((option, index) => (
+                                    <MenuItem
+                                      key={option}
+                                      selected={index === selectedIndex}
+                                      onClick={(event) =>
+                                        handleMenuItemClick(event, index)
+                                      }
+                                    >
+                                      {option}
+                                    </MenuItem>
+                                  ))}
+                                </MenuList>
+                              </ClickAwayListener>
+                            </Paper>
+                          </Grow>
+                        )}
+                      </Popper>
+                    </React.Fragment>
+                  </div>
                 </tr>
               </tbody>
             </table>
@@ -271,6 +360,7 @@ const Profile = () => {
                         transactionNumber: transactionNumber,
                         fullName: sessionStorage.getItem("name"),
                         email: sessionStorage.getItem("email"),
+                        selectedDepartment: options[selectedIndex],
                       })
                       .then((result) => {
                         setVerify(!verify);
