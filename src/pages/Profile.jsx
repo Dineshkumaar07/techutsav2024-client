@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../api/auth";
 import animationData from "../lotties/profile.json";
 
-import Typography from "@mui/material/Typography";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import Lottie from "react-lottie";
 
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
@@ -14,6 +14,28 @@ import { useMediaQuery } from "@mui/material";
 import Footer from "./Footer";
 
 const Profile = () => {
+  const [verify, setVerify] = useState(false);
+  useEffect(() => {
+    const status = api
+      .get("profile/getProfile")
+      .then((res) => {
+        setVerifyLoading(false);
+        //console.log(res);
+        sessionStorage.setItem("name", res.data[0].fullName);
+        sessionStorage.setItem("email", res.data[0].email);
+        sessionStorage.setItem("phone", res.data[0].phoneNumber);
+        sessionStorage.setItem("college", res.data[0].collegeName);
+        sessionStorage.setItem("department", res.data[0].department);
+        sessionStorage.setItem("paid", res.data[0].paid);
+        sessionStorage.setItem(
+          "transactionNumber",
+          res.data[0].transactionNumber
+        );
+      })
+      .catch((err) => {
+        //console.log("Not Authenticated");
+      });
+  }, [verify]);
   const [isLogoutHovered, setLogoutHover] = useState(false);
   const [isVerifyHovered, setVerifyHovered] = useState(false);
   const [isVerifyLoading, setVerifyLoading] = useState(false);
@@ -62,7 +84,7 @@ const Profile = () => {
           <nav className={`w-full h-[50px] absolute top-5 left-5`}>
             <Link
               to="/"
-              className={` px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md fixed md:block  ${
+              className={` px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md fixed md:block bg-white z-30  ${
                 isSeeMoreHovered ? "hovered" : ""
               }`}
               onMouseEnter={() => setIsSeeMoreHovered(true)}
@@ -227,39 +249,8 @@ const Profile = () => {
                         email: sessionStorage.getItem("email"),
                       })
                       .then((result) => {
+                        setVerify(!verify);
                         //console.log(result);
-                        const status = api
-                          .get("profile/getProfile")
-                          .then((res) => {
-                            setVerifyLoading(false);
-                            //console.log(res);
-                            sessionStorage.setItem(
-                              "name",
-                              res.data[0].fullName
-                            );
-                            sessionStorage.setItem("email", res.data[0].email);
-                            sessionStorage.setItem(
-                              "phone",
-                              res.data[0].phoneNumber
-                            );
-                            sessionStorage.setItem(
-                              "college",
-                              res.data[0].collegeName
-                            );
-                            sessionStorage.setItem(
-                              "department",
-                              res.data[0].department
-                            );
-                            sessionStorage.setItem("paid", res.data[0].paid);
-                            sessionStorage.setItem(
-                              "transactionNumber",
-                              res.data[0].transactionNumber
-                            );
-                            window.location.reload();
-                          })
-                          .catch((err) => {
-                            //console.log("Not Authenticated");
-                          });
                       })
                       .catch((err) => {
                         //console.log(err);
@@ -271,8 +262,13 @@ const Profile = () => {
                   onMouseEnter={() => setVerifyHovered(true)}
                   onMouseLeave={() => setVerifyHovered(false)}
                 >
-                  Verify
+                  Verify{" "}
                 </button>
+                {isVerifyLoading && (
+                  <Box sx={{ display: "flex" }}>
+                    <CircularProgress />
+                  </Box>
+                )}
                 {/* <button
                   sx={{ marginTop: "15px" }}
                   variant="contained"
