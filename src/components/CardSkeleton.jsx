@@ -23,7 +23,7 @@ const CardSkeleton = ({ cards }) => {
             <Skeleton height={25} />
             <Skeleton height={25} />
             <Skeleton height={25} />
-            <Skeleton width={200} height={40} className="mt-6" />
+            <Skeleton width={200} height={40} className="md:mt-6 mt-0" />
           </div>
         </div>
       </SkeletonTheme>
