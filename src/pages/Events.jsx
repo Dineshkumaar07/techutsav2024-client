@@ -26,7 +26,7 @@ const Events = () => {
         <div className="flex w-full justify-between sm:px-36 ">
           <h1 className="font-semibold text-xl sm:text-3xl">Departments</h1>
         </div>
-        <div className=" flex gap-9 w-full mt-9 items-center justify-center">
+        <div className=" mt-9 grid sm:grid-cols-2  md:grid-cols-4 gap-9 w-[90%]">
           {departments.map((element, i) => {
             return <Department name={departments[i]} />;
           })}
