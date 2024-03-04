@@ -253,6 +253,11 @@ const Profile = () => {
                 </tr>
               </tbody>
             </table>
+
+            <p className="font-semibold">
+              ** Workshop can be attended irrespective of the selected
+              department
+            </p>
             {mobileCheck && (
               <div>
                 <button
@@ -292,24 +297,15 @@ const Profile = () => {
             mobileCheck ? "w-[50%]" : "w-[90%]"
           } h-full flex flex-col items-center justify-center`}
         >
-          {
-            mobileCheck && (
-              <div className="h-[400px]">
-                <Lottie options={defaultOptions} />
-              </div>
-            )
-            // (
-            //   <img
-            //     src={ProfileOne}
-            //     alt=""
-            //     className={`w-[400px] aspect-[1/1] border rounded-[50%] p-10`}
-            //   />
-            // )
-          }
+          {mobileCheck && (
+            <div className="h-[400px]">
+              <Lottie options={defaultOptions} />
+            </div>
+          )}
           {!(verifyRequest() === "Payment Successful") && (
             <div>
-              <div className={`text-1xl mt-3 flex items-center`}>
-                For Payment Details Download this file{" "}
+              <div className={`text-1xl mt-3 flex items-center font-bold`}>
+                ** For Payment Details Download this file{" "}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -383,56 +379,7 @@ const Profile = () => {
                     <CircularProgress />
                   </Box>
                 )}
-                {/* <button
-                  sx={{ marginTop: "15px" }}
-                  variant="contained"
-                  onClick={() => {
-                    //console.log(transactionNumber);
-                    api
-                      .put("profile/updateProfile", {
-                        transactionNumber: transactionNumber,
-                      })
-                      .then((result) => {
-                        //console.log(result);
-                        const status = api
-                          .get("profile/getProfile")
-                          .then((res) => {
-                            //console.log(res);
-                            sessionStorage.setItem(
-                              "name",
-                              res.data[0].fullName
-                            );
-                            sessionStorage.setItem("email", res.data[0].email);
-                            sessionStorage.setItem(
-                              "phone",
-                              res.data[0].phoneNumber
-                            );
-                            sessionStorage.setItem(
-                              "college",
-                              res.data[0].collegeName
-                            );
-                            sessionStorage.setItem(
-                              "department",
-                              res.data[0].department
-                            );
-                            sessionStorage.setItem("paid", res.data[0].paid);
-                            sessionStorage.setItem(
-                              "transactionNumber",
-                              res.data[0].transactionNumber
-                            );
-                            window.location.reload();
-                          })
-                          .catch((err) => {
-                            //console.log("Not Authenticated");
-                          });
-                      })
-                      .catch((err) => {
-                        //console.log(err);
-                      });
-                  }}
-                >
-                  Verify
-                </button> */}
+
                 {!mobileCheck && (
                   <div>
                     <button
