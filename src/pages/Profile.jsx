@@ -15,12 +15,14 @@ import Footer from "./Footer";
 
 const Profile = () => {
   const [verify, setVerify] = useState(false);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
+    setLoading(true);
     const status = api
       .get("profile/getProfile")
       .then((res) => {
         setVerifyLoading(false);
-        //console.log(res);
+        console.log(res);
         sessionStorage.setItem("name", res.data[0].fullName);
         sessionStorage.setItem("email", res.data[0].email);
         sessionStorage.setItem("phone", res.data[0].phoneNumber);
@@ -31,9 +33,11 @@ const Profile = () => {
           "transactionNumber",
           res.data[0].transactionNumber
         );
+        setLoading(false);
       })
       .catch((err) => {
-        //console.log("Not Authenticated");
+        // console.log("Not Authenticated");
+        window.location.replace("/login");
       });
   }, [verify]);
   const [isLogoutHovered, setLogoutHover] = useState(false);
@@ -75,6 +79,14 @@ const Profile = () => {
     },
   };
   // const animationData = require("../lotties/profile.json");
+
+  if (loading) {
+    return (
+      <Box sx={{ display: "flex", width: "100%", height: "100vh", alignItems: "center", justifyContent: "center" }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <div>
