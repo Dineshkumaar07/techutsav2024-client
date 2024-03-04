@@ -14,7 +14,7 @@ import EventDetails from "./components/EventDetails.jsx";
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
   { path: "/register", element: <Register /> },
-  { path: "/more-events", element: <MoreEvents /> },
+  { path: "/more-events/:departmentName", element: <MoreEvents /> },
   { path: "/login", element: <Login /> },
   { path: "/profile", element: <Profile /> },
 

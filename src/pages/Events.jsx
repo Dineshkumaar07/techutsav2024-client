@@ -5,113 +5,31 @@ import { api } from "../api/auth";
 import CardSkeleton from "../components/CardSkeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useMediaQuery } from "@mui/material";
+import Department from "../components/Department";
 
 const Events = () => {
   const [isSeeMoreHovered, setIsSeeMoreHovered] = useState(false);
   const check = useMediaQuery("(min-width:750px)");
   const maxCheck = useMediaQuery("(max-width:1024px)");
 
-  const [eventDetails, setEventDetails] = useState([]);
   const [flagShipEvents, setFlagShipEvents] = useState([]);
 
   const [loading, setLoading] = useState(true);
   const [flagshipLoading, setFlagshipLoading] = useState(true);
 
-  useEffect(() => {
-    setLoading(true);
-    api
-      .get("event/getFirst")
-      .then((result) => {
-        setEventDetails(result.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        //console.log(err);
-      });
-  }, []);
-
-  useEffect(() => {
-    setLoading(true);
-    api
-      .get("event/getFlagshipEvents")
-      .then((result) => {
-        setFlagShipEvents(result.data);
-        if (result.data.length !== 0) {
-          setFlagshipLoading(false);
-        }
-      })
-      .catch((err) => {
-        //console.log(err);
-      });
-  }, []);
+  const departments = ["CSE", "IT", "CSBS", "DS"];
 
   return (
     <div className=" py-5 px-9 flex flex-col gap-8 ">
       <h1 className="text-6xl sm:text-9xl font-bold text-black/40 ">EVENTS</h1>
       <div>
         <div className="flex w-full justify-between sm:px-36 ">
-          <h1 className="font-semibold text-xl sm:text-3xl">Contests</h1>
-          <Link
-            to="/more-events"
-            className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md ${
-              isSeeMoreHovered ? "hovered" : ""
-            }`}
-            onMouseEnter={() => setIsSeeMoreHovered(true)}
-            onMouseLeave={() => setIsSeeMoreHovered(false)}
-          >
-            See More
-          </Link>
+          <h1 className="font-semibold text-xl sm:text-3xl">Departments</h1>
         </div>
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-9 place-items-center justify-items-center w-full mt-9">
-          {loading ? (
-            maxCheck && check ? (
-              <CardSkeleton cards={2} />
-            ) : (
-              <CardSkeleton cards={3} />
-            )
-          ) : (
-            eventDetails.map((element, i) => {
-              //console.log(element);
-              if (maxCheck && check && i == 2) {
-                return;
-              }
-              return (
-                <Event
-                  uniqueName={element["uniqueName"]}
-                  eventName={element["eventName"]}
-                  eventDescription={element["eventAbstract"]}
-                  image={"https://csi.coep.org.in/csi_logo.png"}
-                />
-              );
-            })
-          )}
-        </div>
-        <div className="flex w-full justify-between sm:px-36 mt-9">
-          <h1 className="font-semibold text-3xl ">Flagship Events</h1>
-        </div>
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-9 place-items-center justify-items-center w-full mt-9">
-          {flagshipLoading ? (
-            maxCheck && check ? (
-              <CardSkeleton cards={2} />
-            ) : (
-              <CardSkeleton cards={3} />
-            )
-          ) : (
-            flagShipEvents.map((element) => {
-              //console.log(element);
-              if (maxCheck && check && i == 2) {
-                return;
-              }
-              return (
-                <Event
-                  uniqueName={element["uniqueName"]}
-                  eventName={element["eventName"]}
-                  eventDescription={element["eventAbstract"]}
-                  image={"https://csi.coep.org.in/csi_logo.png"}
-                />
-              );
-            })
-          )}
+        <div className=" flex gap-9 w-full mt-9 items-center justify-center">
+          {departments.map((element, i) => {
+            return <Department name={departments[i]} />;
+          })}
         </div>
       </div>
     </div>

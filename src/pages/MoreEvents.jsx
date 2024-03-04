@@ -5,15 +5,7 @@ import { api } from "../api/auth";
 import Footer from "./Footer";
 import CardSkeleton from "../components/CardSkeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import Button from "@mui/material/Button";
-import ButtonGroup from "@mui/material/ButtonGroup";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import ClickAwayListener from "@mui/material/ClickAwayListener";
-import Grow from "@mui/material/Grow";
-import Paper from "@mui/material/Paper";
-import Popper from "@mui/material/Popper";
-import MenuItem from "@mui/material/MenuItem";
-import MenuList from "@mui/material/MenuList";
+import { useParams } from "react-router-dom";
 
 const MoreEvents = () => {
   const originalNames = [
@@ -23,7 +15,7 @@ const MoreEvents = () => {
     "Computer Science and Business System",
     "Applied Mathematics and Computational Science",
   ];
-
+  const { departmentName } = useParams();
   const options = ["All", "CSE", "IT", "CSBS", "DS"];
   const [isSeeMoreHovered, setIsSeeMoreHovered] = useState(false);
   const scrollUp = useRef(null);
@@ -64,7 +56,7 @@ const MoreEvents = () => {
   useEffect(() => {
     api
       .post("event/getSpecificEvents", {
-        departmentName: originalNames[selectedIndex],
+        departmentName: originalNames[options.indexOf(departmentName)],
       })
       .then((result) => {
         setEventDetails(result.data);
@@ -84,7 +76,7 @@ const MoreEvents = () => {
         <h1 className="text-5xl font-bold">TECHUTSAV 2024</h1>
         <h2 className="text-4xl font-bold">EVENTS</h2>
         <div className="w-full flex justify-end">
-          <div className="border-2 border-black rounded-lg mr-9">
+          {/* <div className="border-2 border-black rounded-lg mr-9">
             <React.Fragment>
               <ButtonGroup
                 variant="outline"
@@ -142,7 +134,7 @@ const MoreEvents = () => {
                 )}
               </Popper>
             </React.Fragment>
-          </div>
+          </div> */}
           <Link
             to="/"
             className={` px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md  ${
