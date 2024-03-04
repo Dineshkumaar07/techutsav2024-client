@@ -13,7 +13,7 @@ import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import { useMediaQuery } from "@mui/material";
 import Footer from "./Footer";
 
-import { MainLoader } from "../components/MainLoader";
+import MainLoader from "../components/MainLoader";
 
 const Profile = () => {
   const [verify, setVerify] = useState(false);
