@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import EyeClose from "../../components/EyeClose.jsx";
 import EyeOpen from "../../components/EyeOpen.jsx";
-import axios from "axios";
+import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 import { Link, useNavigate } from "react-router-dom";
+import SnackbarContent from "@mui/material/SnackbarContent";
 import { api } from "../../api/auth.js";
 const Login = () => {
   const button =
@@ -17,9 +22,42 @@ const Login = () => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [error, setError] = useState(false);
 
+  const [open, setOpen] = useState(false);
+
+  const [message, setMessage] = useState("");
+  const [messageBack, setMessageBack] = useState("green");
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
   return (
     <div className="w-full h-screen flex items-center justify-center ">
-      <div className="bg-white/50   flex flex-col justify-center rounded-xl gap-9 border-2 border-black p-9">
+      <Paper
+        elevation={2}
+        className="bg-white/50   flex flex-col justify-center rounded-xl gap-9 p-9"
+      >
         <h1 className="text-4xl font-bold">TECHUTSAV 2024</h1>
         <h2 className="font-semibold text-3xl text-center">LOGIN</h2>
         <form className="flex flex-col gap-9">
@@ -76,15 +114,22 @@ const Login = () => {
               className={button}
               onClick={async (event) => {
                 setLoading(true);
+                setMessage("Submitting...");
+                setMessageBack("green");
+                handleClick();
                 event.preventDefault();
                 if (!password || !email) {
                   setIncomplete(true);
+                  setMessage("Complete all details");
+                  setMessageBack("red");
                   return;
                 }
                 setIncomplete(false);
 
                 if (!emailRegex.test(email)) {
                   setIsValidEmail(!emailRegex.test(email));
+                  setMessage("Enter valid mail");
+                  setMessageBack("red");
                   return;
                 }
                 setIsValidEmail(!emailRegex.test(email));
@@ -121,18 +166,29 @@ const Login = () => {
                     //console.log(err);
                     setLoading(false);
                     setError(true);
+                    setMessage("Problem in Login");
+                    setMessageBack("red");
                   });
               }}
             >
               Login
             </button>
-
-            {incomplete && <p className="text-red-500">Complete all details</p>}
-            {isValidEmail && <p className="text-red-500">Enter valid mail</p>}
           </div>
-          {loading && <p>Submitting ...</p>}
-          {error && <p className="text-red-500">Problem in Login </p>}
         </form>
+      </Paper>
+      <div>
+        <Snackbar
+          open={open}
+          autoHideDuration={10000}
+          onClose={handleClose}
+          anchorOrigin={{ horizontal: "right", vertical: "top" }}
+        >
+          <SnackbarContent
+            message={message}
+            sx={{ backgroundColor: messageBack }}
+            action={action}
+          />
+        </Snackbar>
       </div>
     </div>
   );
