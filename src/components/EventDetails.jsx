@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { api } from "../api/auth";
 
 import Typogrpahy from "@mui/material/Typography";
@@ -18,6 +18,8 @@ function EventDetails() {
   const [err, setError] = useState(false);
 
   const mobileCheck = useMediaQuery("(min-width: 800px)");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     api
@@ -63,8 +65,8 @@ function EventDetails() {
           }`}
         >
           <nav className={`w-full h-[50px] p-3 absolute top-5 left-5`}>
-            <Link
-              to="/"
+            <button
+              onClick={() => navigate(-1)}
               className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md ${
                 isBackHovered ? "hovered" : ""
               }`}
@@ -72,7 +74,7 @@ function EventDetails() {
               onMouseLeave={() => setIsBackHovered(false)}
             >
               Back
-            </Link>
+            </button>
           </nav>
           <img
             src={`https://techutsav2024.blob.core.windows.net/eventimages/${uniqueName}.jpg`}
