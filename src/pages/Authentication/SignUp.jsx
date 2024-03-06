@@ -27,7 +27,7 @@ const SignUp = () => {
     "font-semibold bg-white/50 px-2 py-2 rounded-md tracking-wide hover:bg-black hover:text-white duration-150 mt-4";
   return (
     <div
-      className={`flex flex-col h-screen items-center justify-center font-poppins`}
+      className={`flex flex-col h-screen items-center justify-center font-poppins w-full`}
     >
       {currentPage === 0 ? (
         <BasicDetailComponent
