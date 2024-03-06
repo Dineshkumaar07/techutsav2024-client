@@ -16,8 +16,8 @@ import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
-import Grow from "@mui/material/Grow";
 import Paper from "@mui/material/Paper";
+import Grow from "@mui/material/Grow";
 import Popper from "@mui/material/Popper";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
@@ -26,6 +26,13 @@ import { SnackbarComponent } from "../components/SnackbarComponent";
 
 const Profile = () => {
   const options = ["Not Selected", "CSE", "IT", "CSBS", "DS"];
+  const original = [
+    "",
+    "Computer Science and Engineering",
+    "Information Technology",
+    "Computer Science and Business Systems",
+    "Applied Mathematics and Computational Science",
+  ];
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -394,7 +401,7 @@ const Profile = () => {
                           transactionNumber: transactionNumber,
                           fullName: sessionStorage.getItem("name"),
                           email: sessionStorage.getItem("email"),
-                          selectedDepartment: options[selectedIndex],
+                          selectedDepartment: original[selectedIndex],
                         })
                         .then((result) => {
                           setVerify(!verify);

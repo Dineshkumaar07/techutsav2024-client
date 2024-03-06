@@ -16,7 +16,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [incomplete, setIncomplete] = useState(false);
-  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(true);
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [loading, setLoading] = useState(false);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -87,7 +87,7 @@ const Login = () => {
               </label>
               <div className="relative">
                 <input
-                  type={passwordVisible ? "text" : "password"}
+                  type={passwordVisible ? "password" : "text"}
                   placeholder="Enter password"
                   className="focus:outline-none rounded-lg w-5/6 p-2"
                   onChange={(event) => {
@@ -163,11 +163,19 @@ const Login = () => {
                     //console.log(res.data);
                   })
                   .catch((err) => {
-                    //console.log(err);
+                    console.log(err.response.data.errors);
+                    if (err.response.data.errors.email !== "") {
+                      setMessage(err.response.data.errors.email);
+                      setMessageBack("red");
+                    } else if (err.response.data.errors.password !== "") {
+                      setMessage(err.response.data.errors.password);
+                      setMessageBack("red");
+                    } else {
+                      setError(true);
+                      setMessage("Check your Internet Connection");
+                      setMessageBack("red");
+                    }
                     setLoading(false);
-                    setError(true);
-                    setMessage("Problem in Login");
-                    setMessageBack("red");
                   });
               }}
             >

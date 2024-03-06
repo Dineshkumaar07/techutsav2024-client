@@ -64,18 +64,20 @@ function EventDetails() {
             mobileCheck ? "pt-0" : "pt-20"
           }`}
         >
-          <nav className={`w-full h-[50px] p-3 absolute top-5 left-5`}>
-            <button
-              onClick={() => navigate(-1)}
-              className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md ${
-                isBackHovered ? "hovered" : ""
-              }`}
-              onMouseEnter={() => setIsBackHovered(true)}
-              onMouseLeave={() => setIsBackHovered(false)}
-            >
-              Back
-            </button>
-          </nav>
+          {!mobileCheck && (
+            <nav className={`w-full h-[50px] p-3 absolute top-5 left-5`}>
+              <button
+                onClick={() => navigate(-1)}
+                className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md ${
+                  isBackHovered ? "hovered" : ""
+                }`}
+                onMouseEnter={() => setIsBackHovered(true)}
+                onMouseLeave={() => setIsBackHovered(false)}
+              >
+                Back
+              </button>
+            </nav>
+          )}
           <img
             src={`https://techutsav2024.blob.core.windows.net/eventimages/${uniqueName}.jpg`}
             alt={uniqueName}
@@ -87,14 +89,35 @@ function EventDetails() {
             mobileCheck ? "h-screen" : "h-fit"
           } overflow-y-scroll ${!mobileCheck ? "p-8" : "px-12 pb-12"}`}
         >
-          <Typogrpahy
+          <div className="w-full flex items-center justify-between sticky top-0 bg-white">
+            <Typogrpahy
+              marginTop={"20px"}
+              fontSize={mobileCheck ? "60px" : "40px"}
+              fontWeight="bold"
+            >
+              {data["eventName"]}
+            </Typogrpahy>
+            {mobileCheck && (
+              <button
+                onClick={() => navigate(-1)}
+                className={`px-7 py-1  fill-right  hover:text-white border-2 border-black rounded-md ${
+                  isBackHovered ? "hovered" : ""
+                }`}
+                onMouseEnter={() => setIsBackHovered(true)}
+                onMouseLeave={() => setIsBackHovered(false)}
+              >
+                Back
+              </button>
+            )}
+          </div>
+          {/* <Typogrpahy
             className="sticky top-0 bg-white "
             marginTop={"20px"}
             fontSize={mobileCheck ? "60px" : "40px"}
             fontWeight="bold"
           >
             {data["eventName"]}
-          </Typogrpahy>
+          </Typogrpahy> */}
           <Typogrpahy marginTop={"20px"} fontSize={"20px"}>
             <span className={"font-semibold"}>Department:</span>{" "}
             {data["department"]}
