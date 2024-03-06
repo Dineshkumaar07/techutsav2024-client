@@ -59,7 +59,7 @@ const CreatorComponent = ({
   }, []);
 
   return (
-    <div>
+    <div className="w-full h-screen">
       <MainLoader />
     </div>
   );
