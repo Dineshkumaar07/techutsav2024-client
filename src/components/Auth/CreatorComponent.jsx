@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 
-import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router-dom";
 
 import { api } from "../../api/auth";
+import MainLoader from "../MainLoader";
 
 const CreatorComponent = ({
   email,
@@ -60,7 +60,7 @@ const CreatorComponent = ({
 
   return (
     <div>
-      <CircularProgress />
+      <MainLoader />
     </div>
   );
 };
