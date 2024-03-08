@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { api } from "../api/auth";
 
@@ -20,7 +20,11 @@ function EventDetails() {
   const mobileCheck = useMediaQuery("(min-width: 800px)");
 
   const navigate = useNavigate();
+  const scrollUp = useRef(null);
 
+  useEffect(() => {
+    scrollUp.current?.scrollIntoView({ behavior: "smooth" });
+  }, []);
   useEffect(() => {
     api
       .post("event/getSingleEvent", { uniqueName: uniqueName })
@@ -49,7 +53,7 @@ function EventDetails() {
   }
 
   return (
-    <div>
+    <div ref={scrollUp}>
       <div
         className={`${
           mobileCheck ? "h-screen" : "h-fit"
